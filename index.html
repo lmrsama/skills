@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lmrsama · Skills — 让汇报方案"活"起来</title>
+<style>
+:root {
+  --primary: #667eea; --primary-soft: #f0f3ff;
+  --accent: #ff6b9d; --bg: #fafbfd; --card: #fff;
+  --text: #1a1a2e; --text-soft: #555; --text-mute: #8a8a99;
+  --border: #ececf2; --hero-bg: #1a1a2e; --hero-bg2: #2a2244;
+  --green: #1bb371; --orange: #ff8a3d; --red: #e84545;
+  --code-bg: #1e1e2e; --code-text: #e0e0e8;
+  --sidebar-w: 260px; --topbar-h: 56px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif; color: var(--text); background: var(--bg); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+.topbar { position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h); background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; z-index: 100; gap: 16px; }
+.logo { font-weight: 800; font-size: 16px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.logo small { font-weight: 500; opacity: 0.7; margin-left: 6px; -webkit-text-fill-color: var(--text-mute); }
+.topbar .spacer { flex: 1; }
+.topbar .ver { font-size: 11px; color: var(--text-mute); padding: 3px 10px; background: #f3f3f8; border-radius: 12px; }
+.topbar .menu-btn { display: none; background: none; border: 1px solid var(--border); width: 36px; height: 36px; border-radius: 10px; font-size: 18px; cursor: pointer; padding: 0; }
+
+.layout { display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: 100vh; padding-top: var(--topbar-h); }
+
+.sidebar { position: fixed; top: var(--topbar-h); bottom: 0; left: 0; width: var(--sidebar-w); background: white; border-right: 1px solid var(--border); overflow-y: auto; padding: 28px 20px; z-index: 50; }
+.sidebar .group { margin-bottom: 26px; }
+.sidebar .group-title { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.8px; padding: 0 12px; margin-bottom: 6px; }
+.sidebar a.nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; text-decoration: none; color: var(--text-soft); font-size: 13.5px; font-weight: 500; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sidebar a.nav-item:hover { background: var(--primary-soft); color: var(--primary); }
+.sidebar a.nav-item.active { background: var(--text); color: white; }
+.sidebar a.nav-item .icon { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; background: var(--primary-soft); }
+.sidebar a.nav-item.active .icon { background: rgba(255,255,255,0.18); }
+.nav-tag { font-size: 9px; padding: 1px 6px; border-radius: 8px; margin-left: auto; font-weight: 600; }
+.nav-tag.base { background: rgba(27,179,113,0.15); color: var(--green); }
+.nav-tag.rec { background: rgba(102,126,234,0.15); color: var(--primary); }
+.nav-tag.opt { background: rgba(255,138,61,0.18); color: var(--orange); }
+.nav-tag.bundle { background: rgba(255,107,157,0.16); color: var(--accent); }
+.sidebar a.nav-item.active .nav-tag { background: rgba(255,255,255,0.18); color: white; }
+.sidebar-footer { margin-top: 30px; padding: 14px; background: linear-gradient(135deg, #f0f3ff, #fef0fa); border-radius: 12px; font-size: 12px; color: var(--text-soft); line-height: 1.6; }
+.sidebar-footer strong { color: var(--text); }
+
+.main { grid-column: 2; min-width: 0; }
+.view { display: none; animation: fadeIn 0.3s ease-out; }
+.view.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.hero { background: linear-gradient(135deg, var(--hero-bg) 0%, var(--hero-bg2) 100%); color: white; padding: 80px 56px 90px; position: relative; overflow: hidden; }
+.hero::before, .hero::after { content: ''; position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+.hero::before { width: 360px; height: 360px; background: rgba(102,126,234,0.4); top: -100px; left: -50px; }
+.hero::after { width: 280px; height: 280px; background: rgba(255,107,157,0.28); bottom: -80px; right: -50px; }
+.hero-inner { position: relative; max-width: 800px; }
+.hero-tag { display: inline-block; padding: 5px 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; font-size: 12px; color: rgba(255,255,255,0.85); margin-bottom: 22px; }
+.hero h1 { margin: 0 0 22px; font-size: 44px; font-weight: 800; line-height: 1.18; letter-spacing: -0.5px; }
+.hero h1 em { font-style: normal; background: linear-gradient(135deg, #b3c0ff, #ffc1d8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .lead { font-size: 17px; color: rgba(255,255,255,0.82); line-height: 1.75; margin: 0 0 36px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-ctas a { text-decoration: none; padding: 12px 22px; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: transform 0.15s; }
+.hero-ctas a:hover { transform: translateY(-1px); }
+.cta-primary { background: white; color: var(--text); }
+.cta-ghost { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.25); }
+
+.home-section { padding: 64px 56px; border-bottom: 1px solid var(--border); }
+.home-section:last-child { border-bottom: none; }
+.section-tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
+.section-h2 { margin: 0 0 14px; font-size: 32px; font-weight: 800; letter-spacing: -0.4px; }
+.section-lead { font-size: 16px; color: var(--text-soft); max-width: 720px; margin: 0 0 36px; line-height: 1.7; }
+
+.problems { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.problem { padding: 22px 24px; background: white; border: 1px solid var(--border); border-radius: 16px; transition: all 0.2s; }
+.problem:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(20,20,40,0.06); }
+.problem .px { font-size: 24px; margin-bottom: 12px; }
+.problem h3 { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
+.problem p { margin: 0; font-size: 13px; color: var(--text-soft); line-height: 1.65; }
+.problem .arrow { color: var(--primary); font-weight: 700; margin: 8px 0 4px; font-size: 12px; }
+
+.lineup { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.lineup-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; transition: all 0.2s; position: relative; overflow: hidden; }
+.lineup-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent)); opacity: 0; transition: opacity 0.2s; }
+.lineup-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(20,20,40,0.07); border-color: transparent; }
+.lineup-card:hover::before { opacity: 1; }
+.lineup-card h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.lineup-card .role { display: inline-block; align-self: flex-start; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
+.lineup-card.base .role { background: rgba(27,179,113,0.15); color: var(--green); }
+.lineup-card.rec .role { background: rgba(102,126,234,0.15); color: var(--primary); }
+.lineup-card.opt .role { background: rgba(255,138,61,0.18); color: var(--orange); }
+.lineup-card.bundle .role { background: rgba(255,107,157,0.16); color: var(--accent); }
+.lineup-card p { margin: 0; font-size: 13px; color: var(--text-soft); line-height: 1.65; flex: 1; }
+.lineup-card .more { color: var(--primary); font-size: 12px; font-weight: 600; margin-top: 4px; }
+
+.stack { display: flex; gap: 0; padding: 28px; background: white; border-radius: 18px; border: 1px solid var(--border); flex-wrap: wrap; }
+.stack-step { flex: 1; min-width: 150px; padding: 16px 18px; border-radius: 12px; border: 1.5px dashed transparent; background: linear-gradient(135deg, #fafbfd, #f7f8ff); margin: 4px; cursor: pointer; transition: all 0.2s; }
+.stack-step:hover { background: linear-gradient(135deg, var(--primary-soft), #fef0fa); border-color: var(--primary); transform: translateY(-1px); }
+.stack-step .num { width: 22px; height: 22px; background: var(--text); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; margin-bottom: 8px; }
+.stack-step h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+.stack-step p { margin: 0; font-size: 12px; color: var(--text-soft); }
+
+.value-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.value { padding: 22px; background: linear-gradient(135deg, #fafbfd, #fff); border: 1px solid var(--border); border-radius: 14px; }
+.value .num { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 4px; }
+.value .num small { font-size: 14px; -webkit-text-fill-color: var(--text-soft); margin-left: 2px; }
+.value h4 { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
+.value p { margin: 0; font-size: 12.5px; color: var(--text-soft); line-height: 1.6; }
+
+.skill-hero { padding: 64px 56px 50px; background: linear-gradient(135deg, #fafbfd, #fff); border-bottom: 1px solid var(--border); }
+.breadcrumb { font-size: 12px; color: var(--text-mute); margin-bottom: 20px; }
+.breadcrumb a { color: var(--text-mute); text-decoration: none; cursor: pointer; }
+.breadcrumb a:hover { color: var(--primary); }
+.skill-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.skill-pill { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 10px; }
+.skill-pill.base { background: rgba(27,179,113,0.13); color: var(--green); }
+.skill-pill.rec { background: rgba(102,126,234,0.13); color: var(--primary); }
+.skill-pill.opt { background: rgba(255,138,61,0.16); color: var(--orange); }
+.skill-pill.bundle { background: rgba(255,107,157,0.16); color: var(--accent); }
+.skill-pill.gray { background: #f0f0f5; color: var(--text-soft); }
+.skill-hero h1 { margin: 0 0 14px; font-size: 36px; font-weight: 800; letter-spacing: -0.4px; }
+.skill-hero .one-liner { font-size: 18px; color: var(--text-soft); max-width: 640px; line-height: 1.7; margin: 0; }
+
+.skill-section { padding: 56px; border-bottom: 1px solid var(--border); }
+.skill-section:last-child { border-bottom: none; }
+.skill-section h2 { margin: 0 0 6px; font-size: 24px; font-weight: 800; }
+.skill-section .sub { color: var(--text-mute); font-size: 14px; margin: 0 0 28px; }
+
+.ba { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: stretch; }
+.ba-col { padding: 22px; border-radius: 14px; }
+.ba-col.before { background: #fff5f5; border: 1px solid #ffd9d9; }
+.ba-col.after { background: #f0fff5; border: 1px solid #c8efd5; }
+.ba-col h4 { margin: 0 0 12px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+.ba-col.before h4 { color: var(--red); }
+.ba-col.after h4 { color: var(--green); }
+.ba-col ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--text-soft); line-height: 1.85; }
+.ba-arrow { align-self: center; font-size: 26px; color: var(--text-mute); }
+
+.caps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.cap { padding: 24px 26px; background: white; border: 1px solid var(--border); border-radius: 14px; display: flex; gap: 16px; align-items: flex-start; transition: all 0.2s; }
+.cap:hover { border-color: rgba(102,126,234,0.3); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(20,20,40,0.05); }
+.cap .icon { width: 44px; height: 44px; background: var(--primary-soft); color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.cap .cap-body { flex: 1; min-width: 0; }
+.cap h4 { margin: 2px 0 4px; font-size: 15px; font-weight: 700; line-height: 1.4; }
+.cap p { margin: 0; font-size: 13px; color: var(--text-soft); line-height: 1.6; }
+
+.demo-frame { border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: white; box-shadow: 0 8px 30px rgba(20,20,40,0.04); }
+.demo-bar { background: #f7f8fc; border-bottom: 1px solid var(--border); padding: 10px 14px; display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.demo-dots { display: flex; gap: 5px; }
+.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-dot:nth-child(1) { background: #ff6b6b; }
+.demo-dot:nth-child(2) { background: #ffc045; }
+.demo-dot:nth-child(3) { background: #5cd699; }
+.demo-bar .url { background: white; border: 1px solid var(--border); padding: 4px 12px; border-radius: 8px; color: var(--text-mute); flex: 1; font-family: 'SF Mono', Monaco, monospace; font-size: 11px; }
+.demo-bar .label { color: var(--text-mute); font-size: 11px; }
+
+.demo-toolbar { display: flex; gap: 6px; padding: 10px 16px; background: #fafafe; border-bottom: 1px solid var(--border); align-items: center; flex-wrap: wrap; }
+.demo-toolbar strong { font-size: 12.5px; margin-right: auto; }
+.demo-toolbar button { padding: 5px 11px; font-size: 11.5px; border: 1px solid var(--border); border-radius: 12px; background: white; cursor: pointer; font-family: inherit; font-weight: 500; }
+.demo-toolbar button.on { background: var(--text); color: white; border-color: var(--text); }
+.demo-page { padding: 24px 28px; background: white; min-height: 200px; position: relative; }
+.demo-page h4 { margin: 0 0 10px; font-size: 16px; }
+.demo-page p { margin: 0 0 12px; font-size: 13.5px; color: var(--text-soft); line-height: 1.75; }
+.demo-commentable { cursor: default; padding: 6px 10px; margin: 0 -10px 8px; border-radius: 8px; transition: all 0.15s; border: 1.5px dashed transparent; position: relative; }
+.demo-mode-on .demo-commentable { cursor: pointer; }
+.demo-mode-on .demo-commentable:hover { background: rgba(102,126,234,0.05); border-color: rgba(102,126,234,0.4); }
+.demo-commentable.selected { background: rgba(102,126,234,0.1) !important; border-color: var(--primary) !important; }
+.demo-commentable.has-comment::after { content: attr(data-count); position: absolute; top: 4px; right: -6px; background: #ff5757; color: white; font-size: 10px; min-width: 18px; padding: 0 5px; border-radius: 9px; font-weight: 700; line-height: 18px; text-align: center; }
+.demo-bubble { position: absolute; background: #1a1a1a; color: white; padding: 6px 12px; border-radius: 12px; font-size: 11.5px; cursor: pointer; z-index: 10; box-shadow: 0 4px 14px rgba(0,0,0,0.18); user-select: none; }
+.demo-input-wrap { border-top: 1px solid var(--border); padding: 12px 16px; display: none; gap: 8px; background: #fafafe; }
+.demo-input-wrap.show { display: flex; }
+.demo-input-wrap input { flex: 1; padding: 7px 12px; font-size: 13px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-family: inherit; }
+.demo-input-wrap input:focus { border-color: var(--primary); }
+.demo-input-wrap button { padding: 6px 14px; font-size: 12px; font-weight: 600; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; }
+.demo-comments { border-top: 1px solid var(--border); padding: 14px 16px; max-height: 180px; overflow-y: auto; }
+.demo-comment { background: #f7f8fc; border-radius: 10px; padding: 10px 13px; margin-bottom: 8px; font-size: 12.5px; }
+.demo-comment header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.demo-comment strong { font-size: 11.5px; color: var(--primary); font-weight: 700; }
+.demo-comment .t { color: var(--text-mute); font-size: 10.5px; }
+.demo-empty { color: var(--text-mute); font-size: 12.5px; text-align: center; padding: 16px; }
+
+.ai-target { padding: 22px 26px; border: 2px dashed var(--primary); border-radius: 12px; margin: 18px 16px; transition: all 0.3s; background: white; }
+.ai-target h4 { margin: 0 0 8px; font-size: 17px; transition: all 0.3s; }
+.ai-target p { margin: 0; font-size: 13.5px; color: var(--text-soft); line-height: 1.7; transition: all 0.3s; }
+.ai-target.flash { background: linear-gradient(135deg, #fff8e7, #ffe7f3); }
+.ai-row { display: flex; gap: 10px; padding: 14px 16px; }
+.ai-row input { flex: 1; padding: 10px 13px; font-size: 13px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-family: inherit; }
+.ai-row input:focus { border-color: var(--primary); }
+.ai-row button { padding: 0 18px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.ai-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+.ai-status { padding: 10px 18px; font-size: 12px; color: var(--text-mute); background: #fafafe; border-top: 1px solid var(--border); }
+.ai-status .typing::after { content: '...'; animation: blink 1.2s infinite; }
+@keyframes blink { 0%, 30% { opacity: 0.3; } 50%, 100% { opacity: 1; } }
+
+.deploy-step { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; gap: 14px; align-items: flex-start; transition: background 0.3s; }
+.deploy-step:last-child { border-bottom: none; }
+.deploy-step.active { background: linear-gradient(90deg, var(--primary-soft), transparent); }
+.deploy-step.done { background: rgba(27,179,113,0.06); }
+.deploy-step .step-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f0f0f5; color: var(--text-mute); font-size: 14px; flex-shrink: 0; transition: all 0.3s; }
+.deploy-step.active .step-icon { background: var(--primary); color: white; animation: pulse 1.5s infinite; }
+.deploy-step.done .step-icon { background: var(--green); color: white; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(102,126,234,0.5); } 70% { box-shadow: 0 0 0 10px rgba(102,126,234,0); } 100% { box-shadow: 0 0 0 0 rgba(102,126,234,0); } }
+.deploy-step .step-text strong { display: block; font-size: 13.5px; margin-bottom: 3px; }
+.deploy-step .step-text span { font-size: 12.5px; color: var(--text-soft); }
+.deploy-result { padding: 22px; text-align: center; background: linear-gradient(135deg, var(--primary-soft), #fef0fa); border-top: 1px solid var(--border); display: none; }
+.deploy-result.show { display: block; animation: fadeIn 0.4s; }
+.deploy-result h4 { margin: 0 0 6px; font-size: 14px; }
+.deploy-result a { display: inline-block; margin-top: 8px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; color: var(--primary); text-decoration: none; background: white; padding: 7px 14px; border-radius: 10px; border: 1px solid rgba(102,126,234,0.3); }
+
+details.howto { background: white; border: 1px solid var(--border); border-radius: 14px; margin-top: 14px; overflow: hidden; }
+details.howto summary { padding: 18px 22px; cursor: pointer; font-size: 14px; font-weight: 700; list-style: none; display: flex; align-items: center; gap: 10px; user-select: none; }
+details.howto summary::-webkit-details-marker { display: none; }
+details.howto summary::after { content: '展开 ›'; margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-mute); }
+details.howto[open] summary::after { content: '收起'; }
+details.howto summary .ic { background: var(--primary-soft); color: var(--primary); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+details.howto .body { padding: 0 22px 22px; border-top: 1px solid var(--border); padding-top: 18px; }
+details.howto p { margin: 0 0 10px; font-size: 13px; color: var(--text-soft); line-height: 1.7; }
+details.howto p:last-child { margin-bottom: 0; }
+.cmd { background: var(--code-bg); color: var(--code-text); border-radius: 10px; padding: 12px 16px; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12px; line-height: 1.7; overflow-x: auto; margin: 8px 0; }
+.cmd .cmt { color: #888; }
+.cmd .arg { color: #ffd479; }
+
+.alert { padding: 14px 18px; border-radius: 12px; font-size: 13px; line-height: 1.7; margin-top: 14px; }
+.alert.warn { background: #fff7ed; border-left: 3px solid var(--orange); color: #7a4310; }
+.alert.tip { background: #f0f8f3; border-left: 3px solid var(--green); color: #195a3a; }
+.alert.info { background: #f0f3ff; border-left: 3px solid var(--primary); color: #2c3a82; }
+
+.mask { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; }
+.mask.show { display: block; }
+.home-mobile-hint { display: none; }
+
+@media (max-width: 900px) {
+  :root { --sidebar-w: 0px; }
+  .topbar .menu-btn { display: inline-flex; align-items: center; justify-content: center; }
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { width: 280px; transform: translateX(-100%); transition: transform 0.25s; box-shadow: 4px 0 30px rgba(0,0,0,0.1); }
+  .sidebar.open { transform: translateX(0); }
+  .main { grid-column: 1; }
+  .hero { padding: 50px 22px 70px; }
+  .hero h1 { font-size: 28px; }
+  .hero .lead { font-size: 15px; }
+  .home-section { padding: 44px 22px; }
+  .section-h2 { font-size: 24px; }
+  .skill-hero { padding: 40px 22px 30px; }
+  .skill-hero h1 { font-size: 24px; }
+  .skill-hero .one-liner { font-size: 15px; }
+  .skill-section { padding: 40px 22px; }
+  .skill-section h2 { font-size: 20px; }
+  .caps { grid-template-columns: 1fr; gap: 12px; }
+  .lineup { grid-template-columns: 1fr; gap: 12px; }
+  .problems { grid-template-columns: 1fr; gap: 12px; }
+  .value-list { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .cap { padding: 18px 20px; }
+  .cap .icon { width: 38px; height: 38px; font-size: 18px; }
+  .cap h4 { font-size: 14px; }
+  .cap p { font-size: 12.5px; }
+  .ba { grid-template-columns: 1fr; }
+  .ba-arrow { transform: rotate(90deg); padding: 6px 0; align-self: center; justify-self: center; }
+  .stack { padding: 14px; }
+  .stack-step { min-width: 100%; }
+  .topbar { padding: 0 14px; }
+  .demo-page { padding: 16px 18px; }
+  .ai-target { margin: 12px; padding: 16px 18px; }
+  .ai-row { padding: 10px 12px; flex-direction: column; }
+  .ai-row button { padding: 10px; }
+  .home-mobile-hint { display: block; padding: 10px 14px; background: var(--primary-soft); color: var(--primary); font-size: 12.5px; text-align: center; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <div class="logo">lmrsama / skills <small>HTML 汇报系列</small></div>
+  <div class="spacer"></div>
+  <span class="ver">v2026.05</span>
+</div>
+
+<div class="mask" id="mask" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="group">
+      <div class="group-title">概览</div>
+      <a class="nav-item active" data-view="home"><span class="icon">🏠</span><span>主页</span></a>
+    </div>
+    <div class="group">
+      <div class="group-title">Skills</div>
+      <a class="nav-item" data-view="github"><span class="icon">🚀</span><span>HTML 一键上线</span><span class="nav-tag base">必装</span></a>
+      <a class="nav-item" data-view="comments"><span class="icon">💬</span><span>实时评论</span><span class="nav-tag rec">推荐</span></a>
+      <a class="nav-item" data-view="ai"><span class="icon">✨</span><span>AI 实时修改</span><span class="nav-tag opt">慎用</span></a>
+      <a class="nav-item" data-view="publisher"><span class="icon">🎁</span><span>汇报全家桶</span><span class="nav-tag bundle">预设</span></a>
+    </div>
+    <div class="sidebar-footer">
+      <strong>📍 怎么读</strong><br>
+      点左侧任意 skill 跳到独立页面。每个 skill 都有「演示」可以直接玩。命令和文件结构在「如何使用」抽屉里折叠收起，按需展开。
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="view active" data-view="home">
+      <div class="home-mobile-hint">👆 点左上 ☰ 打开目录浏览各个 skill</div>
+
+      <section class="hero">
+        <div class="hero-inner">
+          <span class="hero-tag">📦 Skills 工具集 · WorkBuddy 自研</span>
+          <h1>让你的方案 <em>HTML</em>，从静态文件，<br>变成<em>能评论、能改稿</em>的协作链接</h1>
+          <p class="lead">把"做完发出去"变成"边看边改"。给老板/同事的不再是 PPT 截图，而是一个能在任意元素上点击留言、AI 当场改稿、版本可追溯的在线链接——所有反馈沉淀在一个页面里。</p>
+          <div class="hero-ctas">
+            <a class="cta-primary" data-view="comments">看「评论」演示 →</a>
+            <a class="cta-ghost" data-view="github">从最简单开始</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <span class="section-tag">解决什么问题</span>
+        <h2 class="section-h2">汇报方案的"反馈黑洞"</h2>
+        <p class="section-lead">大部分汇报场景有一套老旧流程：发 docx/PPT/截图 → 同事在群里七嘴八舌 → 作者整理散乱反馈 → 改第二版 → 重新发。每一步都在丢信息、消耗心力。</p>
+        <div class="problems">
+          <div class="problem">
+            <div class="px">📎</div>
+            <h3>反馈散在群里</h3>
+            <p>"第三页那段改改"——哪段？谁说的？老板的话和实习生的话混在一起。</p>
+            <div class="arrow">↓</div>
+            <p style="font-weight:600;color:var(--green);">→ 评论锚定到具体元素，谁、何时、改什么一目了然</p>
+          </div>
+          <div class="problem">
+            <div class="px">🔄</div>
+            <h3>改稿要等作者</h3>
+            <p>老板说"加两个字就好"，作者却在开会，半天改不到。</p>
+            <div class="arrow">↓</div>
+            <p style="font-weight:600;color:var(--green);">→ 描述需求，AI 当场改 HTML，3-15 秒生效</p>
+          </div>
+          <div class="problem">
+            <div class="px">🌫</div>
+            <h3>改完前一版找不回</h3>
+            <p>改到第三版才发现第一版那个标题更好——但没了。</p>
+            <div class="arrow">↓</div>
+            <p style="font-weight:600;color:var(--green);">→ 每次改稿自动 snapshot，版本历史一键撤回</p>
+          </div>
+          <div class="problem">
+            <div class="px">📤</div>
+            <h3>发出去的链接是死的</h3>
+            <p>截图发过去，对方只能看，不能交互、不能反馈、不能 mark。</p>
+            <div class="arrow">↓</div>
+            <p style="font-weight:600;color:var(--green);">→ 一行命令把本地 HTML 推上 GitHub Pages，公开可访问</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <span class="section-tag">这一组 skill 是什么</span>
+        <h2 class="section-h2">4 个能"积木式"组合的工具</h2>
+        <p class="section-lead">不是一个庞大的全功能软件——而是 4 个独立 skill，按你这次的需求决定装几个。基础部署是底座，评论和 AI 是可选积木。</p>
+        <div class="lineup">
+          <a class="lineup-card base" data-view="github">
+            <span class="role">底座 · 必装</span>
+            <h3>🚀 HTML 一键上线</h3>
+            <p>本地 HTML 文件 → 公开访问的 GitHub Pages 链接。一行命令。</p>
+            <span class="more">查看详情 →</span>
+          </a>
+          <a class="lineup-card rec" data-view="comments">
+            <span class="role">推荐 · 90% 场景</span>
+            <h3>💬 实时评论</h3>
+            <p>给已部署的 HTML 加一层评论模块：选中元素留言，云端同步。</p>
+            <span class="more">查看详情 →</span>
+          </a>
+          <a class="lineup-card opt" data-view="ai">
+            <span class="role">高阶 · 慎用</span>
+            <h3>✨ AI 实时修改</h3>
+            <p>评论的人能直接让 AI 改 HTML，版本可撤回。需要 DeepSeek。</p>
+            <span class="more">查看详情 →</span>
+          </a>
+          <a class="lineup-card bundle" data-view="publisher">
+            <span class="role">全家桶 · 预设</span>
+            <h3>🎁 一键汇报版</h3>
+            <p>Word/PPT/Markdown 转"QB 蓝白风"汇报 HTML，预设视觉 + 全功能。</p>
+            <span class="more">查看详情 →</span>
+          </a>
+        </div>
+
+        <div style="margin-top:36px;">
+          <span class="section-tag">怎么组合</span>
+          <h2 class="section-h2" style="font-size:22px;margin-bottom:18px;">从最简到最全，按需叠加</h2>
+          <div class="stack">
+            <div class="stack-step" data-view="github">
+              <div class="num">1</div>
+              <h4>🚀 一键上线</h4>
+              <p>拿到公开访问链接</p>
+            </div>
+            <div class="stack-step" data-view="comments">
+              <div class="num">2</div>
+              <h4>+ 💬 评论</h4>
+              <p>能让人点击元素留言</p>
+            </div>
+            <div class="stack-step" data-view="ai">
+              <div class="num">3</div>
+              <h4>+ ✨ AI 修改</h4>
+              <p>评论的人能让 AI 当场改</p>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--text-mute);margin-top:14px;">想要"开箱即用、QB 蓝白风预设视觉"的另一条路：直接用 <a data-view="publisher" style="color:var(--accent);cursor:pointer;font-weight:600;">🎁 全家桶</a>。</p>
+        </div>
+      </section>
+
+      <section class="home-section">
+        <span class="section-tag">能带来什么</span>
+        <h2 class="section-h2">实际效果</h2>
+        <div class="value-list">
+          <div class="value">
+            <div class="num">~5<small>min</small></div>
+            <h4>本地 HTML 上线</h4>
+            <p>从下命令到拿到公开 URL，平均 5 分钟内（含等 Pages 启动）。</p>
+          </div>
+          <div class="value">
+            <div class="num">100%</div>
+            <h4>评论锚定准确率</h4>
+            <p>评论存的不是"第三页第二段"，是元素的 data-section ID，DOM 重排不丢。</p>
+          </div>
+          <div class="value">
+            <div class="num">3-15<small>s</small></div>
+            <h4>AI 修改生效</h4>
+            <p>从描述需求到 HTML 真改完，全过程不超过 15 秒（DeepSeek 正常负载）。</p>
+          </div>
+          <div class="value">
+            <div class="num">¥0</div>
+            <h4>额外服务依赖</h4>
+            <p>GitHub Pages + Gist 都是免费。AI 修改可选，DeepSeek 5 元充够用很久。</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="view" data-view="github">
+      <section class="skill-hero">
+        <div class="breadcrumb"><a data-view="home">← 主页</a> / HTML 一键上线</div>
+        <div class="skill-pills">
+          <span class="skill-pill base">底座 · 必装</span>
+          <span class="skill-pill gray">v1.0.0</span>
+        </div>
+        <h1>🚀 让本地 HTML 变成可分享的链接</h1>
+        <p class="one-liner">这是整个系列的底座。其他增值能力都建立在它之上。专注做好一件事：把任意 HTML 文件推到 GitHub Pages 公开访问。</p>
+      </section>
+
+      <section class="skill-section">
+        <h2>解决什么问题</h2>
+        <p class="sub">同事做完方案，发链接而不是发截图——这是合作的起点。</p>
+        <div class="ba">
+          <div class="ba-col before">
+            <h4>🙅 之前</h4>
+            <ul>
+              <li>方案做完，截图发群里</li>
+              <li>截图被压缩、看不清细节</li>
+              <li>对方想点击交互？没办法</li>
+              <li>改了一版，又得重发截图</li>
+            </ul>
+          </div>
+          <div class="ba-arrow">→</div>
+          <div class="ba-col after">
+            <h4>✓ 现在</h4>
+            <ul>
+              <li>本地 HTML，一行命令上线</li>
+              <li>得到公开 URL，发链接就行</li>
+              <li>对方原汁原味交互、看真实效果</li>
+              <li>本地改了再跑同一行命令同步</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>能力</h2>
+        <p class="sub">4 件事，做扎实。</p>
+        <div class="caps">
+          <div class="cap"><div class="icon">🔑</div><div class="cap-body"><h4>一次配置，永久复用</h4><p>首次引导走完 Token 配置，之后所有 skill 共用</p></div></div>
+          <div class="cap"><div class="icon">🏗️</div><div class="cap-body"><h4>自动建仓 + 启 Pages</h4><p>仓库不存在自动创建，Pages 自动开启</p></div></div>
+          <div class="cap"><div class="icon">🔄</div><div class="cap-body"><h4>二次部署即覆盖</h4><p>本地改了跑同一行命令，无需手动 git</p></div></div>
+          <div class="cap"><div class="icon">🔒</div><div class="cap-body"><h4>支持私有仓库</h4><p>仓库内容私密，但 Pages URL 仍可公开访问</p></div></div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>演示</h2>
+        <p class="sub">点「开始模拟部署」看一下流程是什么样。</p>
+        <div class="demo-frame">
+          <div class="demo-bar">
+            <div class="demo-dots"><span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span></div>
+            <span class="url">~/your-project</span>
+            <span class="label">部署演示</span>
+          </div>
+          <div class="deploy-step" data-step="1"><div class="step-icon">①</div><div class="step-text"><strong>读取本地 HTML</strong><span>your-report.html · 152 KB</span></div></div>
+          <div class="deploy-step" data-step="2"><div class="step-icon">②</div><div class="step-text"><strong>检查/创建 GitHub 仓库</strong><span>my-report · public · auto_init</span></div></div>
+          <div class="deploy-step" data-step="3"><div class="step-icon">③</div><div class="step-text"><strong>上传 index.html</strong><span>覆盖现有版本（如果已存在）</span></div></div>
+          <div class="deploy-step" data-step="4"><div class="step-icon">④</div><div class="step-text"><strong>启用 GitHub Pages</strong><span>main 分支 / 根目录</span></div></div>
+          <div class="deploy-result" id="deployResult">
+            <h4>✅ 部署完成</h4>
+            <p style="font-size:12px;color:var(--text-soft);margin:0;">首次启用 Pages 通常需要 1-2 分钟才能访问</p>
+            <a>https://your-handle.github.io/my-report/</a>
+          </div>
+          <div style="padding:14px 18px;border-top:1px solid var(--border);background:#fafafe;text-align:center;">
+            <button onclick="runDeployDemo()" id="deployBtn" style="padding:8px 22px;background:var(--text);color:white;border:none;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;">▶ 开始模拟部署</button>
+          </div>
+        </div>
+
+        <details class="howto">
+          <summary><span class="ic">⚙️</span> 如何使用（命令和文件）</summary>
+          <div class="body">
+            <p><strong>1. 一次性引导（创建 GitHub Token）</strong></p>
+            <div class="cmd"><span class="cmt"># 浏览器打开 https://github.com/settings/tokens/new
+# 勾选：✅ repo  ✅ gist  → Generate token → 复制 ghp_xxx</span>
+
+python3 ~/.workbuddy/skills/html-deploy-github/scripts/setup.py</div>
+
+            <p><strong>2. 部署你的 HTML</strong></p>
+            <div class="cmd">python3 ~/.workbuddy/skills/html-deploy-github/scripts/deploy.py \
+    <span class="arg">/path/to/your.html</span> \
+    --repo <span class="arg">my-report</span></div>
+
+            <p><strong>3. 拿到 URL（约 5 分钟首次构建）</strong></p>
+            <div class="cmd"><span class="cmt">✅ 部署完成
+📍 https://your-handle.github.io/my-report/</span></div>
+          </div>
+        </details>
+
+        <div class="alert warn">
+          ⚠️ <strong>注意</strong>：① 不要在对话里直接发 token，GitHub 会自动扫描撤销；② Pages 是公开的，敏感数据慎放；③ 二次部署默认覆盖，不会保留线上手改。
+        </div>
+      </section>
+    </div>
+
+    <div class="view" data-view="comments">
+      <section class="skill-hero">
+        <div class="breadcrumb"><a data-view="home">← 主页</a> / 实时评论</div>
+        <div class="skill-pills">
+          <span class="skill-pill rec">推荐 · 最稳</span>
+          <span class="skill-pill gray">v1.0.0</span>
+        </div>
+        <h1>💬 让链接里的页面"能被点评"</h1>
+        <p class="one-liner">老板/同事打开链接不再是"看一眼关了"，而是能在任意段落、卡片、数据上点击留言——评论云端同步，作者一键导出 Markdown 整理。</p>
+      </section>
+
+      <section class="skill-section">
+        <h2>解决什么问题</h2>
+        <p class="sub">把分散在群聊、邮件、口头反馈的意见，集中到方案本身上。</p>
+        <div class="ba">
+          <div class="ba-col before">
+            <h4>🙅 之前</h4>
+            <ul>
+              <li>群里七嘴八舌，"第三段那个数据"——哪段？</li>
+              <li>反馈散落十几条消息里</li>
+              <li>作者凭印象整理，遗漏 / 重复</li>
+              <li>多端看同一份方案，反馈对不齐</li>
+            </ul>
+          </div>
+          <div class="ba-arrow">→</div>
+          <div class="ba-col after">
+            <h4>✓ 现在</h4>
+            <ul>
+              <li>评论锚定到具体元素，谁说改哪一目了然</li>
+              <li>评论沉淀在方案里，不丢</li>
+              <li>一键导出 Markdown，按位置 / 时间 / 作者排</li>
+              <li>多设备同步，PC 看 / 手机评 / 平板看</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>能力</h2>
+        <p class="sub">围绕"让老板愿意点进来留言"设计的 6 件事。</p>
+        <div class="caps">
+          <div class="cap"><div class="icon">👁️</div><div class="cap-body"><h4>默认只读不打扰</h4><p>主动切到「批注」才进入点击模式，避免误操作</p></div></div>
+          <div class="cap"><div class="icon">📍</div><div class="cap-body"><h4>评论锚定到元素</h4><p>不是"第 3 段"，是具体段落，点列表可跳回</p></div></div>
+          <div class="cap"><div class="icon">☁️</div><div class="cap-body"><h4>云端实时同步</h4><p>评论存 GitHub Gist，多人多端看到同一份</p></div></div>
+          <div class="cap"><div class="icon">🔢</div><div class="cap-body"><h4>热度徽标一眼看</h4><p>有评论的元素右上角红点标数，哪里最热看得见</p></div></div>
+          <div class="cap"><div class="icon">📤</div><div class="cap-body"><h4>一键导出 Markdown</h4><p>作者按位置 / 时间 / 作者汇总，整理不靠脑</p></div></div>
+          <div class="cap"><div class="icon">📱</div><div class="cap-body"><h4>手机端不妥协</h4><p>顶栏字号间距单独重做，老板通勤路上也能评</p></div></div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>演示</h2>
+        <p class="sub">这个区域是真的可点。切「💬 批注」，点段落写评论看看。</p>
+        <div class="demo-frame">
+          <div class="demo-bar">
+            <div class="demo-dots"><span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span></div>
+            <span class="url">your-handle.github.io/your-report</span>
+            <span class="label">演示 · 不会真发到 Gist</span>
+          </div>
+          <div class="demo-toolbar">
+            <strong>📝 在线评审</strong>
+            <button class="dt-view on" onclick="setDemoMode('view')">👁️ 只读</button>
+            <button class="dt-comment" onclick="setDemoMode('comment')">💬 批注</button>
+            <button onclick="exportDemo()">📤 导出</button>
+          </div>
+          <div class="demo-page" id="demoPage">
+            <h4 class="demo-commentable" data-key="d-h">26H1 网页安全专项同步</h4>
+            <p class="demo-commentable" data-key="d-p1">本期重点：把 PC 浏览器高危 CVE 处置时间从 14 天压到 3 天。</p>
+            <p class="demo-commentable" data-key="d-p2">配套动作：弹窗提醒、自动升级、降级开关。Q1 跑前两个，Q2 补降级。</p>
+            <p class="demo-commentable" data-key="d-p3">指标：高危 CVE 修复 SLA、用户感知不打扰率、降级触发率。</p>
+          </div>
+          <div class="demo-input-wrap" id="demoInput">
+            <input type="text" id="demoText" placeholder="输入评论...（按 Enter 发布）" />
+            <button onclick="submitDemoComment()">发布</button>
+          </div>
+          <div class="demo-comments" id="demoComments">
+            <div class="demo-empty">还没有评论。切到「批注」模式 → 点段落 → 留言</div>
+          </div>
+        </div>
+
+        <details class="howto">
+          <summary><span class="ic">⚙️</span> 如何使用（命令和文件）</summary>
+          <div class="body">
+            <p>评论模块作为"叠加层"，在已部署的 HTML 上加。需要先装 🚀 HTML 一键上线。</p>
+            <p><strong>1. 一次性创建评论 Gist</strong></p>
+            <div class="cmd">python3 ~/.workbuddy/skills/html-deploy-comments/scripts/inject.py --setup-gist</div>
+            <p><strong>2. 注入评论模块到你的 HTML</strong></p>
+            <div class="cmd">python3 ~/.workbuddy/skills/html-deploy-comments/scripts/inject.py <span class="arg">your.html</span></div>
+            <p><strong>3. 用部署 skill 推上去</strong></p>
+            <div class="cmd">python3 ~/.workbuddy/skills/html-deploy-github/scripts/deploy.py <span class="arg">your.html</span> --repo <span class="arg">my-report</span></div>
+          </div>
+        </details>
+
+        <div class="alert info">
+          💡 <strong>设计要点</strong>：评论锚点优先用 data-section 属性（DOM 重排不丢评论）；Gist 用 public 是为了 raw_url fallback（数据 &gt; 1MB 时 API 会 truncate）；token 直接明文嵌入 HTML，建议建专用 fine-grained PAT 仅授权 Gist。
+        </div>
+      </section>
+    </div>
+
+    <div class="view" data-view="ai">
+      <section class="skill-hero">
+        <div class="breadcrumb"><a data-view="home">← 主页</a> / AI 实时修改</div>
+        <div class="skill-pills">
+          <span class="skill-pill opt">高阶 · 慎用</span>
+          <span class="skill-pill gray">v1.0.0</span>
+        </div>
+        <h1>✨ 让评论的人，能直接改稿</h1>
+        <p class="one-liner">老板说"标题加个 emoji" → 不用等作者，AI 当场改 HTML。每次改之前自动 snapshot，错了一键撤回。代价是稳定性低于纯评论版，要 DeepSeek API key。</p>
+      </section>
+
+      <section class="skill-section">
+        <h2>解决什么问题</h2>
+        <div class="ba">
+          <div class="ba-col before">
+            <h4>🙅 之前</h4>
+            <ul>
+              <li>"加两个字就好"——作者在开会改不到</li>
+              <li>小调整也要走"评论 → 整理 → 编辑 → 重发"</li>
+              <li>改到第三版，找不回第一版</li>
+            </ul>
+          </div>
+          <div class="ba-arrow">→</div>
+          <div class="ba-col after">
+            <h4>✓ 现在</h4>
+            <ul>
+              <li>选元素 → 描述改动 → 5-15 秒生效</li>
+              <li>小调整自助完成，作者只看大改</li>
+              <li>每次改前 snapshot 上云，可一键撤回</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>能力</h2>
+        <p class="sub">不是"让 AI 帮你改"，是"让看方案的人当场就能改"。</p>
+        <div class="caps">
+          <div class="cap"><div class="icon">🎯</div><div class="cap-body"><h4>改哪选哪，精准到元素</h4><p>只改你点中的那块，不会殃及其他内容</p></div></div>
+          <div class="cap"><div class="icon">🔐</div><div class="cap-body"><h4>密码门保护 API 额度</h4><p>API key AES-GCM 加密嵌入，访问者要输密码</p></div></div>
+          <div class="cap"><div class="icon">⏪</div><div class="cap-body"><h4>改错能撤回</h4><p>每次改前自动 snapshot，历史版本一键回滚</p></div></div>
+          <div class="cap"><div class="icon">🛡️</div><div class="cap-body"><h4>脏数据护栏</h4><p>调用前清运行时 class，避免 AI 引入意外注入</p></div></div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>演示</h2>
+        <p class="sub">输入想要的改动（如"标题加个 emoji"、"改成更正式语气"、"中译英"），看 AI 怎么改。<strong>纯前端模拟</strong>，不调真 API。</p>
+        <div class="demo-frame">
+          <div class="demo-bar">
+            <div class="demo-dots"><span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span></div>
+            <span class="url">your-handle.github.io/your-report</span>
+            <span class="label">演示 · 模拟</span>
+          </div>
+          <div class="ai-target" id="aiTarget">
+            <h4 id="aiH">26H1 网页安全专项</h4>
+            <p id="aiP">本期把高危 CVE 修复时间从 14 天压到 3 天内。</p>
+          </div>
+          <div class="ai-row">
+            <input type="text" id="aiInput" placeholder='例如："标题加个 emoji" / "改成更正式语气" / "翻译成英文"' />
+            <button onclick="runAiDemo()" id="aiBtn">✨ 让 AI 改</button>
+          </div>
+          <div class="ai-status" id="aiStatus">等待你的诉求…</div>
+        </div>
+
+        <details class="howto">
+          <summary><span class="ic">⚙️</span> 如何使用（命令和文件）</summary>
+          <div class="body">
+            <p>AI 实时修改能力深度耦合在「全家桶」里，本 skill 只是引导。</p>
+            <p><strong>前置</strong>：DeepSeek API key（platform.deepseek.com 注册充 5 元起）。必须用 DeepSeek，腾讯混元等不支持浏览器 CORS 跨域。</p>
+            <p><strong>1. 复制全家桶骨架</strong></p>
+            <div class="cmd">cp ~/.workbuddy/skills/html-report-publisher/templates/reference.html <span class="arg">your.html</span></div>
+            <p><strong>2. 部署</strong></p>
+            <div class="cmd">python3 ~/.workbuddy/skills/html-report-publisher/scripts/deploy.py <span class="arg">your.html</span> --force-local</div>
+          </div>
+        </details>
+
+        <div class="alert warn">
+          ⚠️ <strong>稳定性提醒</strong>：AI 调用涉及 CORS、密码加密、DOM patch、版本撤回多个环节，任何一处问题都会让链路失败。<strong>90% 场景纯评论版就够了</strong>。这个 skill 适合"高频迭代、要当场改稿"的场景。
+        </div>
+      </section>
+    </div>
+
+    <div class="view" data-view="publisher">
+      <section class="skill-hero">
+        <div class="breadcrumb"><a data-view="home">← 主页</a> / 汇报全家桶</div>
+        <div class="skill-pills">
+          <span class="skill-pill bundle">全家桶 · 预设</span>
+          <span class="skill-pill gray">v1.2.0</span>
+        </div>
+        <h1>🎁 直接出"汇报版"</h1>
+        <p class="one-liner">不想自己设计 HTML 视觉？这一个就够：Word/PPT/Markdown 转 QB 蓝白风汇报 HTML，评论 + AI + 撤回 + 密码门 + PC/手机双视图全部内置。</p>
+      </section>
+
+      <section class="skill-section">
+        <h2>解决什么问题</h2>
+        <div class="ba">
+          <div class="ba-col before">
+            <h4>🙅 之前</h4>
+            <ul>
+              <li>有 docx/PPT/Markdown 方案文件</li>
+              <li>想做成在线版，但不想自己写 HTML</li>
+              <li>想要预设的视觉风格（卡片化、配色统一）</li>
+              <li>评论 / AI / 撤回都要，但配置一堆</li>
+            </ul>
+          </div>
+          <div class="ba-arrow">→</div>
+          <div class="ba-col after">
+            <h4>✓ 现在</h4>
+            <ul>
+              <li>选「QB 蓝白风预设」或「保留原稿层级」</li>
+              <li>选「基础版只评论」或「完整版 + AI」</li>
+              <li>填正文，verify 通过，一键部署</li>
+              <li>所有功能开箱即用，不掺杂手工配置</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>能力</h2>
+        <p class="sub">不想自己写 HTML 视觉？全家桶直接给你一个开箱即用的样板。</p>
+        <div class="caps">
+          <div class="cap"><div class="icon">🎨</div><div class="cap-body"><h4>QB 蓝白风预设</h4><p>统一配色 + 卡片布局 + 流程图护栏，开箱即用</p></div></div>
+          <div class="cap"><div class="icon">📄</div><div class="cap-body"><h4>多格式转 HTML</h4><p>Word / PPT / Markdown / 纯文字 → HTML 骨架</p></div></div>
+          <div class="cap"><div class="icon">🎚️</div><div class="cap-body"><h4>开关式选模式</h4><p>enable_ai 开关决定装哪套组合</p></div></div>
+          <div class="cap"><div class="icon">✅</div><div class="cap-body"><h4>部署前健康检查</h4><p>12 项 P0/P1 自动扫，P0 非零不让发</p></div></div>
+          <div class="cap"><div class="icon">🔧</div><div class="cap-body"><h4>引导式问答</h4><p>6 步全流程，每个决策都问你，不擅自决定</p></div></div>
+          <div class="cap"><div class="icon">📊</div><div class="cap-body"><h4>沉淀 12 条踩坑铁律</h4><p>CSS 不能动什么 / SVG 要加什么 class，都写进 SKILL</p></div></div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>什么时候选这条路</h2>
+        <p class="sub">三件套和全家桶都能完成"在线汇报"，只是哲学不同。</p>
+        <div class="ba">
+          <div class="ba-col before" style="background:#f0f3ff;border-color:#c8d0ff;">
+            <h4 style="color:var(--primary);">🧱 三件套（积木式）</h4>
+            <ul>
+              <li>有自己的 HTML 视觉，只想加协作能力</li>
+              <li>按需叠加，逐层装、逐层稳</li>
+              <li>能注入到任意 HTML</li>
+              <li>评论是自研轻量版，最稳</li>
+            </ul>
+          </div>
+          <div class="ba-arrow">vs</div>
+          <div class="ba-col after" style="background:#fef0fa;border-color:#ffd0e2;">
+            <h4 style="color:var(--accent);">🎁 全家桶（预设式）</h4>
+            <ul>
+              <li>从 Word/PPT/MD 出发，不想自己写 HTML</li>
+              <li>要 QB 蓝白风预设视觉</li>
+              <li>评论 + AI + 撤回都要，开关式选</li>
+              <li>能接受 6 步引导问答</li>
+            </ul>
+          </div>
+        </div>
+        <div class="alert tip">
+          🎁 <strong>判断方法</strong>：你已经有自己的 HTML 想加协作能力 → 三件套；从一个 docx/MD 出发要做完整汇报 → 全家桶。两条路并存，不冲突。
+        </div>
+      </section>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.dataset.view === name));
+  document.querySelectorAll('.nav-item').forEach(a => a.classList.toggle('active', a.dataset.view === name));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (window.innerWidth <= 900) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('mask').classList.remove('show');
+  }
+}
+document.querySelectorAll('[data-view]').forEach(el => {
+  el.addEventListener('click', (e) => {
+    if (el.tagName === 'DIV' && el.classList.contains('view')) return;
+    e.preventDefault();
+    switchView(el.dataset.view);
+  });
+});
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mask').classList.toggle('show');
+}
+
+// ============ comments demo ============
+const demoState = { mode: 'view', selected: null, comments: [] };
+
+function setDemoMode(m) {
+  demoState.mode = m;
+  document.querySelector('.demo-page').classList.toggle('demo-mode-on', m === 'comment');
+  document.querySelector('.dt-view').classList.toggle('on', m === 'view');
+  document.querySelector('.dt-comment').classList.toggle('on', m === 'comment');
+  if (m !== 'comment') clearDemoSelection();
+}
+function clearDemoSelection() {
+  document.querySelectorAll('.demo-commentable.selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.demo-bubble').forEach(el => el.remove());
+  document.getElementById('demoInput').classList.remove('show');
+  demoState.selected = null;
+}
+const demoPage = document.getElementById('demoPage');
+if (demoPage) {
+  demoPage.addEventListener('click', (e) => {
+    if (demoState.mode !== 'comment') return;
+    const tgt = e.target.closest('.demo-commentable');
+    if (tgt) {
+      e.stopPropagation();
+      clearDemoSelection();
+      tgt.classList.add('selected');
+      demoState.selected = tgt;
+      const bub = document.createElement('div');
+      bub.className = 'demo-bubble';
+      bub.textContent = '💬 评论这里';
+      const rect = tgt.getBoundingClientRect();
+      const pageRect = demoPage.getBoundingClientRect();
+      bub.style.top = Math.max(8, rect.top - pageRect.top - 32) + 'px';
+      bub.style.left = (rect.left - pageRect.left) + 'px';
+      bub.onclick = (ev) => {
+        ev.stopPropagation();
+        document.getElementById('demoInput').classList.add('show');
+        document.getElementById('demoText').focus();
+      };
+      demoPage.appendChild(bub);
+    }
+  });
+}
+const demoText = document.getElementById('demoText');
+if (demoText) {
+  demoText.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); submitDemoComment(); }
+  });
+}
+function submitDemoComment() {
+  const txt = document.getElementById('demoText').value.trim();
+  if (!txt || !demoState.selected) return;
+  const key = demoState.selected.dataset.key;
+  demoState.comments.push({ key, text: txt, time: new Date(), author: '你' });
+  const cnt = demoState.comments.filter(c => c.key === key).length;
+  demoState.selected.classList.add('has-comment');
+  demoState.selected.dataset.count = cnt;
+  document.getElementById('demoText').value = '';
+  renderDemoComments();
+  clearDemoSelection();
+}
+function renderDemoComments() {
+  const wrap = document.getElementById('demoComments');
+  if (!demoState.comments.length) {
+    wrap.innerHTML = '<div class="demo-empty">还没有评论。切到「批注」模式 → 点段落 → 留言</div>';
+    return;
+  }
+  wrap.innerHTML = demoState.comments.slice().reverse().map(c => {
+    const safe = c.text.replace(/[<>]/g, x => ({'<':'&lt;','>':'&gt;'}[x]));
+    return '<div class="demo-comment"><header><strong>' + c.author + '</strong><span class="t">' +
+      c.time.toLocaleTimeString().slice(0,5) + '</span></header><div>' + safe + '</div></div>';
+  }).join('');
+}
+function exportDemo() {
+  if (!demoState.comments.length) {
+    alert('暂无评论。切到「批注」模式 → 点段落 → 留言后再导出。');
+    return;
+  }
+  const lines = ['真实场景下会下载 comments.md。', '', '本演示含 ' + demoState.comments.length + ' 条评论：', ''];
+  demoState.comments.forEach((c, i) => lines.push((i+1) + '. ' + c.author + '：' + c.text));
+  alert(lines.join('\n'));
+}
+
+// ============ AI demo ============
+function runAiDemo() {
+  const req = document.getElementById('aiInput').value.trim();
+  if (!req) { document.getElementById('aiInput').focus(); return; }
+  const status = document.getElementById('aiStatus');
+  const target = document.getElementById('aiTarget');
+  const h = document.getElementById('aiH');
+  const p = document.getElementById('aiP');
+  status.innerHTML = '<span class="typing">DeepSeek 思考中</span>';
+  document.getElementById('aiBtn').disabled = true;
+
+  setTimeout(() => {
+    const lower = req.toLowerCase();
+    let newH = h.textContent, newP = p.textContent;
+    if (lower.includes('emoji') || lower.includes('表情')) {
+      newH = '🛡️ ' + newH.replace(/^🛡️ |^🚀 /, '');
+    } else if (lower.includes('正式') || lower.includes('严肃')) {
+      newH = '关于 26H1 网页安全专项工作的同步说明';
+      newP = '本周期内拟将高危漏洞（CVE）的处置周期由原定的 14 个工作日，压缩至 3 个工作日以内。';
+    } else if (lower.includes('简') || lower.includes('短')) {
+      newH = '26H1 网安专项';
+      newP = '高危 CVE 修复：14 天 → 3 天。';
+    } else if (lower.includes('活泼') || lower.includes('生动')) {
+      newH = '🚀 26H1 网页安全冲一波！';
+      newP = '搞定高危 CVE，14 天压到 3 天，快得飞起 ⚡';
+    } else if (lower.includes('英文') || lower.includes('english') || lower.includes('en')) {
+      newH = 'H1 2026 Web Security Initiative';
+      newP = 'Reduce high-severity CVE response time from 14 days to within 3 days.';
+    } else if (lower.includes('数据') || lower.includes('指标') || lower.includes('补')) {
+      newP = newP + ' 配套指标：SLA 达成率 ≥ 95%、用户感知不打扰率 ≤ 5%。';
+    } else {
+      newP = newP + '（应「' + req + '」改动）';
+    }
+    target.classList.add('flash');
+    h.textContent = newH;
+    p.textContent = newP;
+    status.innerHTML = '✓ 已生效（模拟）· 真实场景版本会同步存到 Gist 可撤回';
+    document.getElementById('aiBtn').disabled = false;
+    document.getElementById('aiInput').value = '';
+    setTimeout(() => target.classList.remove('flash'), 800);
+  }, 1200 + Math.random() * 800);
+}
+const aiInput = document.getElementById('aiInput');
+if (aiInput) {
+  aiInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); runAiDemo(); }
+  });
+}
+
+// ============ deploy demo ============
+function runDeployDemo() {
+  const btn = document.getElementById('deployBtn');
+  const result = document.getElementById('deployResult');
+  const steps = document.querySelectorAll('.deploy-step');
+  btn.disabled = true;
+  btn.textContent = '部署中…';
+  steps.forEach(s => s.classList.remove('active', 'done'));
+  result.classList.remove('show');
+
+  let i = 0;
+  function advance() {
+    if (i > 0) steps[i-1].classList.add('done');
+    if (i >= steps.length) {
+      result.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = '▶ 重新模拟';
+      return;
+    }
+    steps[i].classList.add('active');
+    i++;
+    setTimeout(advance, 900);
+  }
+  advance();
+}
+</script>
+
+</body>
+</html>
