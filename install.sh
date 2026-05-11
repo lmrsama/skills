@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# lmrsama / skills · 一行命令安装器
+# leomrli / skills · 一行命令安装器
 #
 # 用法：
 #   curl -fsSL https://lmrsama.github.io/skills/install.sh | bash -s html-deploy-github
@@ -47,7 +47,7 @@ is_known() {
 }
 
 print_usage() {
-  echo "lmrsama / skills 安装器"
+  echo "leomrli / skills 安装器"
   echo ""
   echo "用法："
   echo "  curl -fsSL ${REPO_BASE}/install.sh | bash -s <skill-name>"
@@ -136,7 +136,7 @@ main() {
 
   echo ""
   echo -e "${BLUE}====================================${NC}"
-  echo -e "${BLUE}  lmrsama / skills 一键安装器${NC}"
+  echo -e "${BLUE}  leomrli / skills 一键安装器${NC}"
   echo -e "${BLUE}====================================${NC}"
   echo ""
 
