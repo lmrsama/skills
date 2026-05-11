@@ -224,6 +224,34 @@ details.howto p:last-child { margin-bottom: 0; }
 .alert.tip { background: #f0f8f3; border-left: 3px solid var(--green); color: #195a3a; }
 .alert.info { background: #f0f3ff; border-left: 3px solid var(--primary); color: #2c3a82; }
 
+/* ===== 获取 + 部署 区块 ===== */
+.install-card { background: linear-gradient(135deg, #1a1a2e 0%, #2a2244 100%); color: white; border-radius: 16px; padding: 28px 30px; margin-top: 6px; position: relative; overflow: hidden; }
+.install-card::before { content: ''; position: absolute; width: 200px; height: 200px; background: rgba(102,126,234,0.3); border-radius: 50%; filter: blur(60px); top: -50px; right: -50px; pointer-events: none; }
+.install-card h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; position: relative; color: white; }
+.install-card .install-sub { color: rgba(255,255,255,0.65); font-size: 13px; margin: 0 0 18px; position: relative; }
+.install-cmd { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; position: relative; margin-bottom: 12px; }
+.install-cmd code { flex: 1; font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12.5px; color: #c4ccff; overflow-x: auto; white-space: nowrap; }
+.install-cmd .copy-btn { flex-shrink: 0; padding: 5px 12px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.install-cmd .copy-btn:hover { background: rgba(255,255,255,0.22); }
+.install-cmd .copy-btn.copied { background: var(--green); border-color: var(--green); }
+.install-alt { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 12px; color: rgba(255,255,255,0.6); position: relative; }
+.install-alt a { color: #b3c0ff; text-decoration: none; padding: 5px 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; font-size: 12px; transition: all 0.15s; }
+.install-alt a:hover { background: rgba(255,255,255,0.14); color: white; }
+
+.deploy-steps { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-top: 14px; }
+.deploy-steps h4 { margin: 0 0 16px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.deploy-steps h4 .ic { background: var(--primary-soft); color: var(--primary); width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+.deploy-row { display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding: 12px 0; border-top: 1px dashed var(--border); }
+.deploy-row:first-of-type { border-top: none; padding-top: 0; }
+.deploy-row .num { width: 28px; height: 28px; background: var(--text); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.deploy-row .deploy-text { min-width: 0; }
+.deploy-row strong { display: block; font-size: 13.5px; margin-bottom: 4px; }
+.deploy-row p { margin: 0; font-size: 12.5px; color: var(--text-soft); line-height: 1.65; }
+.deploy-row code { background: #f0f0f5; padding: 1px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; font-size: 11.5px; }
+
+.toast-mini { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 18px; border-radius: 20px; font-size: 13px; z-index: 9999; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.toast-mini.show { opacity: 1; }
+
 .mask { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; }
 .mask.show { display: block; }
 .home-mobile-hint { display: none; }
@@ -249,6 +277,11 @@ details.howto p:last-child { margin-bottom: 0; }
   .lineup { grid-template-columns: 1fr; gap: 12px; }
   .problems { grid-template-columns: 1fr; gap: 12px; }
   .value-list { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .install-card { padding: 22px 18px; }
+  .install-cmd { padding: 12px; flex-direction: column; align-items: stretch; }
+  .install-cmd code { white-space: normal; word-break: break-all; font-size: 11.5px; }
+  .install-cmd .copy-btn { align-self: flex-end; }
+  .deploy-steps { padding: 18px 20px; }
   .cap { padding: 18px 20px; }
   .cap .icon { width: 38px; height: 38px; font-size: 18px; }
   .cap h4 { font-size: 14px; }
@@ -503,6 +536,52 @@ details.howto p:last-child { margin-bottom: 0; }
           </div>
         </div>
 
+      <section class="skill-section">
+        <h2>获取 &amp; 部署</h2>
+        <p class="sub">一行命令安装到 WorkBuddy，或直接下载 zip。</p>
+
+        <div class="install-card">
+          <h3>🚀 一行命令安装</h3>
+          <p class="install-sub">复制下面这行粘到终端，自动下载 + 解压到 <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;color:#c4ccff;">~/.workbuddy/skills/</code></p>
+          <div class="install-cmd">
+            <code id="cmd-github">curl -fsSL https://lmrsama.github.io/skills/install.sh | bash -s html-deploy-github</code>
+            <button class="copy-btn" onclick="copyInstall('github', this)">复制</button>
+          </div>
+          <div class="install-alt">
+            <span>或：</span>
+            <a href="https://lmrsama.github.io/skills/packages/html-deploy-github.zip" download>📦 下载 zip</a>
+            <a href="https://github.com/lmrsama/skills/tree/main/packages" target="_blank">📂 查看仓库</a>
+          </div>
+        </div>
+
+        <div class="deploy-steps">
+          <h4><span class="ic">📦</span> 安装到 WorkBuddy 全过程</h4>
+          <div class="deploy-row">
+            <div class="num">1</div>
+            <div class="deploy-text">
+              <strong>跑上面的一行命令</strong>
+              <p>脚本会自动检查依赖（curl / unzip）→ 下载 zip → 解压到 <code>~/.workbuddy/skills/html-deploy-github/</code> → 给所有 .py 加可执行权限。已存在会自动备份。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">2</div>
+            <div class="deploy-text">
+              <strong>WorkBuddy 自动识别</strong>
+              <p>WorkBuddy 启动时会扫描 <code>~/.workbuddy/skills/</code> 下的所有 skill。每次新会话都能直接调用，不用重启客户端。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">3</div>
+            <div class="deploy-text">
+              <strong>首次使用</strong>
+              <p>装好之后第一次用前，先跑引导创建 GitHub Token：</p>
+              <div class="cmd" style="margin:8px 0 0;">python3 ~/.workbuddy/skills/html-deploy-github/scripts/setup.py</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
         <details class="howto">
           <summary><span class="ic">⚙️</span> 如何使用（命令和文件）</summary>
           <div class="body">
@@ -609,6 +688,52 @@ python3 ~/.workbuddy/skills/html-deploy-github/scripts/setup.py</div>
           </div>
         </div>
 
+      <section class="skill-section">
+        <h2>获取 &amp; 部署</h2>
+        <p class="sub">一行命令安装到 WorkBuddy，或直接下载 zip。</p>
+
+        <div class="install-card">
+          <h3>🚀 一行命令安装</h3>
+          <p class="install-sub">复制下面这行粘到终端，自动下载 + 解压到 <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;color:#c4ccff;">~/.workbuddy/skills/</code></p>
+          <div class="install-cmd">
+            <code id="cmd-comments">curl -fsSL https://lmrsama.github.io/skills/install.sh | bash -s html-deploy-comments</code>
+            <button class="copy-btn" onclick="copyInstall('comments', this)">复制</button>
+          </div>
+          <div class="install-alt">
+            <span>或：</span>
+            <a href="https://lmrsama.github.io/skills/packages/html-deploy-comments.zip" download>📦 下载 zip</a>
+            <a href="https://github.com/lmrsama/skills/tree/main/packages" target="_blank">📂 查看仓库</a>
+          </div>
+        </div>
+
+        <div class="deploy-steps">
+          <h4><span class="ic">📦</span> 安装到 WorkBuddy 全过程</h4>
+          <div class="deploy-row">
+            <div class="num">1</div>
+            <div class="deploy-text">
+              <strong>跑上面的一行命令</strong>
+              <p>脚本会自动检查依赖（curl / unzip）→ 下载 zip → 解压到 <code>~/.workbuddy/skills/html-deploy-comments/</code> → 给所有 .py 加可执行权限。已存在会自动备份。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">2</div>
+            <div class="deploy-text">
+              <strong>WorkBuddy 自动识别</strong>
+              <p>WorkBuddy 启动时会扫描 <code>~/.workbuddy/skills/</code> 下的所有 skill。每次新会话都能直接调用，不用重启客户端。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">3</div>
+            <div class="deploy-text">
+              <strong>首次使用</strong>
+              <p>依赖 html-deploy-github。装好后，先创建评论专用 Gist：</p>
+              <div class="cmd" style="margin:8px 0 0;">python3 ~/.workbuddy/skills/html-deploy-comments/scripts/inject.py --setup-gist</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
         <details class="howto">
           <summary><span class="ic">⚙️</span> 如何使用（命令和文件）</summary>
           <div class="body">
@@ -693,6 +818,52 @@ python3 ~/.workbuddy/skills/html-deploy-github/scripts/setup.py</div>
           <div class="ai-status" id="aiStatus">等待你的诉求…</div>
         </div>
 
+      <section class="skill-section">
+        <h2>获取 &amp; 部署</h2>
+        <p class="sub">一行命令安装到 WorkBuddy，或直接下载 zip。</p>
+
+        <div class="install-card">
+          <h3>🚀 一行命令安装</h3>
+          <p class="install-sub">复制下面这行粘到终端，自动下载 + 解压到 <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;color:#c4ccff;">~/.workbuddy/skills/</code></p>
+          <div class="install-cmd">
+            <code id="cmd-ai">curl -fsSL https://lmrsama.github.io/skills/install.sh | bash -s html-deploy-ai-edit</code>
+            <button class="copy-btn" onclick="copyInstall('ai', this)">复制</button>
+          </div>
+          <div class="install-alt">
+            <span>或：</span>
+            <a href="https://lmrsama.github.io/skills/packages/html-deploy-ai-edit.zip" download>📦 下载 zip</a>
+            <a href="https://github.com/lmrsama/skills/tree/main/packages" target="_blank">📂 查看仓库</a>
+          </div>
+        </div>
+
+        <div class="deploy-steps">
+          <h4><span class="ic">📦</span> 安装到 WorkBuddy 全过程</h4>
+          <div class="deploy-row">
+            <div class="num">1</div>
+            <div class="deploy-text">
+              <strong>跑上面的一行命令</strong>
+              <p>脚本会自动检查依赖（curl / unzip）→ 下载 zip → 解压到 <code>~/.workbuddy/skills/html-deploy-ai-edit/</code> → 给所有 .py 加可执行权限。已存在会自动备份。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">2</div>
+            <div class="deploy-text">
+              <strong>WorkBuddy 自动识别</strong>
+              <p>WorkBuddy 启动时会扫描 <code>~/.workbuddy/skills/</code> 下的所有 skill。每次新会话都能直接调用，不用重启客户端。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">3</div>
+            <div class="deploy-text">
+              <strong>首次使用</strong>
+              <p>这是「引导层 skill」，实际能力依赖 html-report-publisher。建议两个一起装：</p>
+              <div class="cmd" style="margin:8px 0 0;">curl -fsSL https://lmrsama.github.io/skills/install.sh | bash -s html-deploy-ai-edit html-report-publisher</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
         <details class="howto">
           <summary><span class="ic">⚙️</span> 如何使用（命令和文件）</summary>
           <div class="body">
@@ -757,6 +928,51 @@ python3 ~/.workbuddy/skills/html-deploy-github/scripts/setup.py</div>
           <div class="cap"><div class="icon">✅</div><div class="cap-body"><h4>部署前健康检查</h4><p>12 项 P0/P1 自动扫，P0 非零不让发</p></div></div>
           <div class="cap"><div class="icon">🔧</div><div class="cap-body"><h4>引导式问答</h4><p>6 步全流程，每个决策都问你，不擅自决定</p></div></div>
           <div class="cap"><div class="icon">📊</div><div class="cap-body"><h4>沉淀 12 条踩坑铁律</h4><p>CSS 不能动什么 / SVG 要加什么 class，都写进 SKILL</p></div></div>
+        </div>
+      </section>
+
+      <section class="skill-section">
+        <h2>获取 &amp; 部署</h2>
+        <p class="sub">一行命令安装到 WorkBuddy，或直接下载 zip。</p>
+
+        <div class="install-card">
+          <h3>🚀 一行命令安装</h3>
+          <p class="install-sub">复制下面这行粘到终端，自动下载 + 解压到 <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:4px;color:#c4ccff;">~/.workbuddy/skills/</code></p>
+          <div class="install-cmd">
+            <code id="cmd-publisher">curl -fsSL https://lmrsama.github.io/skills/install.sh | bash -s html-report-publisher</code>
+            <button class="copy-btn" onclick="copyInstall('publisher', this)">复制</button>
+          </div>
+          <div class="install-alt">
+            <span>或：</span>
+            <a href="https://lmrsama.github.io/skills/packages/html-report-publisher.zip" download>📦 下载 zip</a>
+            <a href="https://github.com/lmrsama/skills/tree/main/packages" target="_blank">📂 查看仓库</a>
+          </div>
+        </div>
+
+        <div class="deploy-steps">
+          <h4><span class="ic">📦</span> 安装到 WorkBuddy 全过程</h4>
+          <div class="deploy-row">
+            <div class="num">1</div>
+            <div class="deploy-text">
+              <strong>跑上面的一行命令</strong>
+              <p>脚本会自动检查依赖（curl / unzip）→ 下载 zip → 解压到 <code>~/.workbuddy/skills/html-report-publisher/</code> → 给所有 .py 加可执行权限。已存在会自动备份。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">2</div>
+            <div class="deploy-text">
+              <strong>WorkBuddy 自动识别</strong>
+              <p>WorkBuddy 启动时会扫描 <code>~/.workbuddy/skills/</code> 下的所有 skill。每次新会话都能直接调用，不用重启客户端。</p>
+            </div>
+          </div>
+          <div class="deploy-row">
+            <div class="num">3</div>
+            <div class="deploy-text">
+              <strong>首次使用</strong>
+              <p>复制配置示例并填入你的 token / gist_id / DeepSeek key：</p>
+              <div class="cmd" style="margin:8px 0 0;">cp ~/.workbuddy/skills/html-report-publisher/config.example.json ~/.workbuddy/skills/html-report-publisher/config.json</div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -945,6 +1161,47 @@ if (aiInput) {
   aiInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); runAiDemo(); }
   });
+}
+
+// ============ install copy ============
+function copyInstall(key, btn) {
+  const code = document.getElementById('cmd-' + key);
+  if (!code) return;
+  const text = code.textContent.trim();
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (_) {}
+    document.body.removeChild(ta);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(fallback);
+  } else {
+    fallback();
+  }
+  btn.textContent = '✓ 已复制';
+  btn.classList.add('copied');
+  showMiniToast('命令已复制，粘到终端运行');
+  setTimeout(() => {
+    btn.textContent = '复制';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function showMiniToast(msg) {
+  let t = document.querySelector('.toast-mini');
+  if (!t) {
+    t = document.createElement('div');
+    t.className = 'toast-mini';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  t._tm = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
 // ============ deploy demo ============
