@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lmrsama · Skills — 让汇报方案"活"起来</title>
+<title>leomrli · Skills — 让汇报方案"活"起来</title>
 <style>
 :root {
   --primary: #667eea; --primary-soft: #f0f3ff;
@@ -252,6 +252,56 @@ details.howto p:last-child { margin-bottom: 0; }
 .toast-mini { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 10px 18px; border-radius: 20px; font-size: 13px; z-index: 9999; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
 .toast-mini.show { opacity: 1; }
 
+/* ===== 首页底部互动区 ===== */
+.engage { padding: 56px 56px 80px; background: linear-gradient(180deg, #fafbfd 0%, #fff 100%); border-top: 1px solid var(--border); }
+.engage-head { display: flex; align-items: flex-end; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+.engage-head h2 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.3px; }
+.engage-head .muted { font-size: 13px; color: var(--text-mute); margin: 4px 0 0; }
+.engage-head .spacer { flex: 1; }
+.engage-meta { display: flex; gap: 18px; align-items: center; }
+.engage-stat { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-soft); }
+.engage-stat .icon { width: 28px; height: 28px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.engage-stat strong { font-size: 15px; color: var(--text); font-weight: 700; min-width: 18px; text-align: center; transition: transform 0.3s; }
+.engage-stat strong.bump { animation: numBump 0.6s ease-out; }
+@keyframes numBump { 0% { transform: scale(1); color: var(--text); } 30% { transform: scale(1.4); color: var(--accent); } 100% { transform: scale(1); color: var(--text); } }
+
+/* 点赞按钮 */
+.like-area { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }
+.like-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 30px; border: 1px solid var(--border); background: white; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: all 0.18s; font-family: inherit; }
+.like-btn:hover { border-color: var(--accent); background: #fef0fa; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,107,157,0.15); }
+.like-btn.liked { background: linear-gradient(135deg, #ffe7f3, #fff8e7); border-color: var(--accent); color: var(--accent); cursor: default; }
+.like-btn.liked:hover { transform: none; box-shadow: none; }
+.like-btn .heart { font-size: 18px; transition: transform 0.3s; }
+.like-btn.liked .heart { animation: heartPop 0.5s ease-out; }
+@keyframes heartPop { 0%,100% { transform: scale(1); } 50% { transform: scale(1.5) rotate(-10deg); } }
+.like-name-input { padding: 10px 14px; border: 1px solid var(--border); border-radius: 24px; font-size: 13px; outline: none; font-family: inherit; min-width: 180px; transition: border-color 0.15s; }
+.like-name-input:focus { border-color: var(--primary); }
+.like-hint { font-size: 12px; color: var(--text-mute); }
+
+/* 评论区 */
+.comment-section { margin-top: 14px; }
+.comment-form { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; }
+.comment-form-row { display: grid; grid-template-columns: 200px 1fr auto; gap: 10px; align-items: stretch; }
+.comment-form input, .comment-form textarea { padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-family: inherit; font-size: 13px; }
+.comment-form input:focus, .comment-form textarea:focus { border-color: var(--primary); }
+.comment-form textarea { resize: vertical; min-height: 42px; max-height: 200px; line-height: 1.6; }
+.comment-form button { padding: 10px 20px; background: var(--text); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.comment-form button:disabled { opacity: 0.4; cursor: not-allowed; }
+.comment-form button:hover:not(:disabled) { background: #2a2a4e; }
+.comment-form .form-hint { margin: 8px 0 0; font-size: 11.5px; color: var(--text-mute); }
+
+.comment-list { display: flex; flex-direction: column; gap: 10px; }
+.comment-item { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; }
+.comment-item header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.comment-item .avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.comment-item .avatar.anon { background: #d0d0d8; }
+.comment-item .meta { flex: 1; min-width: 0; }
+.comment-item .meta strong { font-size: 13px; font-weight: 700; }
+.comment-item .meta .anon-tag { color: var(--text-mute); font-weight: 500; font-style: italic; }
+.comment-item .meta time { font-size: 11.5px; color: var(--text-mute); margin-left: 8px; }
+.comment-item .body { font-size: 13.5px; line-height: 1.7; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+.comment-empty { text-align: center; padding: 32px 20px; color: var(--text-mute); font-size: 13px; background: white; border: 1px dashed var(--border); border-radius: 12px; }
+
 .mask { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 40; }
 .mask.show { display: block; }
 .home-mobile-hint { display: none; }
@@ -282,6 +332,15 @@ details.howto p:last-child { margin-bottom: 0; }
   .install-cmd code { white-space: normal; word-break: break-all; font-size: 11.5px; }
   .install-cmd .copy-btn { align-self: flex-end; }
   .deploy-steps { padding: 18px 20px; }
+  .engage { padding: 40px 22px 60px; }
+  .engage-head h2 { font-size: 20px; }
+  .engage-head { gap: 14px; }
+  .engage-meta { gap: 12px; }
+  .like-area { gap: 10px; }
+  .like-name-input { min-width: 140px; flex: 1; }
+  .comment-form { padding: 16px; }
+  .comment-form-row { grid-template-columns: 1fr; gap: 8px; }
+  .comment-form button { padding: 10px; }
   .cap { padding: 18px 20px; }
   .cap .icon { width: 38px; height: 38px; font-size: 18px; }
   .cap h4 { font-size: 14px; }
@@ -303,7 +362,7 @@ details.howto p:last-child { margin-bottom: 0; }
 
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-  <div class="logo">lmrsama / skills <small>HTML 汇报系列</small></div>
+  <div class="logo">leomrli / skills <small>HTML 汇报系列</small></div>
   <div class="spacer"></div>
   <span class="ver">v2026.05</span>
 </div>
@@ -460,6 +519,52 @@ details.howto p:last-child { margin-bottom: 0; }
             <div class="num">¥0</div>
             <h4>额外服务依赖</h4>
             <p>GitHub Pages + Gist 都是免费。AI 修改可选，DeepSeek 5 元充够用很久。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="engage" id="engage">
+        <div class="engage-head">
+          <div>
+            <h2>👋 一起聊聊</h2>
+            <p class="muted">看到这里，留个想法或一个赞？匿名也行。</p>
+          </div>
+          <div class="spacer"></div>
+          <div class="engage-meta">
+            <div class="engage-stat">
+              <span class="icon">👁️</span>
+              <span>浏览</span>
+              <strong id="viewCount">—</strong>
+            </div>
+            <div class="engage-stat">
+              <span class="icon">💖</span>
+              <span>点赞</span>
+              <strong id="likeCount">—</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="like-area">
+          <button class="like-btn" id="likeBtn" onclick="doLike()">
+            <span class="heart">🤍</span>
+            <span id="likeText">点个赞</span>
+          </button>
+          <input type="text" class="like-name-input" id="likeName" placeholder="你的名字（可选，不填就匿名）" maxlength="20" />
+          <span class="like-hint">同一浏览器只能点一次</span>
+        </div>
+
+        <div class="comment-section">
+          <div class="comment-form">
+            <div class="comment-form-row">
+              <input type="text" id="commentName" placeholder="昵称（可选）" maxlength="20" />
+              <textarea id="commentText" placeholder="说点什么...（Enter 换行，Cmd/Ctrl + Enter 发布）" rows="2" maxlength="500"></textarea>
+              <button id="commentSubmit" onclick="submitSiteComment()">发布</button>
+            </div>
+            <p class="form-hint">不填昵称会显示「匿名访客」。所有评论公开可见，建议不要填敏感内容。</p>
+          </div>
+
+          <div class="comment-list" id="commentList">
+            <div class="comment-empty" id="commentEmpty">还没有评论，第一个就是你 ✨</div>
           </div>
         </div>
       </section>
@@ -1010,6 +1115,219 @@ python3 ~/.workbuddy/skills/html-deploy-github/scripts/setup.py</div>
 </div>
 
 <script>
+// ============ Site Stats (views / likes / comments) ============
+// Gist 存数据；token 通过 GitHub API 写。token 仅有 gist + repo 权限，最坏情况是 gist 被滥用，仓库代码不会受影响。
+const SITE_STATS = {
+  GIST_ID: '31a86d86ec6166c9693959bf30569346',
+  // token 在 deploy 时不会被自动注入；这里需要嵌入。下面的 token 是 lmrsama 的 PAT。
+  // 因为 GitHub Pages 公开，所以这里的 token 等同于公开。如果担心被滥用，建议生成专用 fine-grained PAT 仅授 gist。
+  TOKEN: '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',
+  FILENAME: 'site-stats.json',
+  LS_VIEWED: 'lmrsama-skills-viewed',
+  LS_LIKED: 'lmrsama-skills-liked',
+};
+
+const stats = { views: 0, likes: [], comments: [], _busy: false };
+
+async function fetchStats() {
+  try {
+    const r = await fetch('https://api.github.com/gists/' + SITE_STATS.GIST_ID, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    });
+    if (!r.ok) return null;
+    const data = await r.json();
+    const file = data.files && data.files[SITE_STATS.FILENAME];
+    if (!file) return null;
+    let content = file.content;
+    if (file.truncated && file.raw_url) {
+      const r2 = await fetch(file.raw_url);
+      if (r2.ok) content = await r2.text();
+    }
+    return JSON.parse(content);
+  } catch (e) { console.warn('stats fetch', e); return null; }
+}
+
+async function saveStats(data) {
+  if (SITE_STATS._busy) return false;
+  SITE_STATS._busy = true;
+  try {
+    const body = { files: {} };
+    body.files[SITE_STATS.FILENAME] = { content: JSON.stringify(data, null, 2) };
+    const r = await fetch('https://api.github.com/gists/' + SITE_STATS.GIST_ID, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'token ' + SITE_STATS.TOKEN,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    return r.ok;
+  } catch (e) { console.warn('stats save', e); return false; }
+  finally { SITE_STATS._busy = false; }
+}
+
+function bumpNum(el, newVal) {
+  el.textContent = newVal;
+  el.classList.remove('bump');
+  void el.offsetWidth;
+  el.classList.add('bump');
+}
+
+function fmtCommentTime(ts) {
+  const d = new Date(ts);
+  const diff = Date.now() - ts;
+  if (diff < 60000) return '刚刚';
+  if (diff < 3600000) return Math.floor(diff / 60000) + ' 分钟前';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + ' 小时前';
+  return (d.getMonth()+1) + '/' + d.getDate() + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+function renderComments() {
+  const list = document.getElementById('commentList');
+  if (!list) return;
+  if (!stats.comments.length) {
+    list.innerHTML = '<div class="comment-empty">还没有评论，第一个就是你 ✨</div>';
+    return;
+  }
+  const sorted = stats.comments.slice().sort((a,b) => b.time - a.time);
+  list.innerHTML = sorted.map(c => {
+    const named = c.name && c.name.trim();
+    const avatar = named ? c.name.trim().charAt(0).toUpperCase() : '?';
+    const safe = c.text.replace(/[<>&"']/g, x => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[x]));
+    return `<div class="comment-item"><header><div class="avatar${named?'':' anon'}">${avatar}</div><div class="meta"><strong${named?'':' class="anon-tag"'}>${named ? c.name.replace(/[<>&]/g,'') : '匿名访客'}</strong><time>${fmtCommentTime(c.time)}</time></div></header><div class="body">${safe}</div></div>`;
+  }).join('');
+}
+
+function renderEngageNumbers() {
+  const v = document.getElementById('viewCount');
+  const l = document.getElementById('likeCount');
+  if (v) v.textContent = stats.views || 0;
+  if (l) l.textContent = stats.likes.length || 0;
+}
+
+async function initEngage() {
+  const data = await fetchStats();
+  if (!data) {
+    document.getElementById('viewCount').textContent = '—';
+    document.getElementById('likeCount').textContent = '—';
+    return;
+  }
+  stats.views = data.views || 0;
+  stats.likes = Array.isArray(data.likes) ? data.likes : [];
+  stats.comments = Array.isArray(data.comments) ? data.comments : [];
+  renderEngageNumbers();
+  renderComments();
+
+  // 已点赞标记
+  if (localStorage.getItem(SITE_STATS.LS_LIKED)) {
+    const btn = document.getElementById('likeBtn');
+    if (btn) {
+      btn.classList.add('liked');
+      btn.querySelector('.heart').textContent = '💖';
+      document.getElementById('likeText').textContent = '已点赞';
+      const inp = document.getElementById('likeName');
+      if (inp) inp.style.display = 'none';
+    }
+  }
+
+  // 浏览量 +1（每个浏览器只 +1 一次，避免刷新刷数）
+  if (!localStorage.getItem(SITE_STATS.LS_VIEWED)) {
+    stats.views = (stats.views || 0) + 1;
+    bumpNum(document.getElementById('viewCount'), stats.views);
+    const ok = await saveStats({ views: stats.views, likes: stats.likes, comments: stats.comments });
+    if (ok) {
+      localStorage.setItem(SITE_STATS.LS_VIEWED, String(Date.now()));
+    }
+  }
+}
+
+async function doLike() {
+  if (localStorage.getItem(SITE_STATS.LS_LIKED)) {
+    showMiniToast('你已经点过赞啦 💖');
+    return;
+  }
+  const btn = document.getElementById('likeBtn');
+  const inp = document.getElementById('likeName');
+  const name = inp ? inp.value.trim() : '';
+  btn.disabled = true;
+
+  // 拉最新数据避免覆盖（防多人同时点赞冲突）
+  const latest = await fetchStats();
+  if (latest) {
+    stats.likes = Array.isArray(latest.likes) ? latest.likes : [];
+    stats.comments = Array.isArray(latest.comments) ? latest.comments : [];
+    stats.views = latest.views || stats.views;
+  }
+  stats.likes.push({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    name: name || null,
+    time: Date.now(),
+  });
+  const ok = await saveStats({ views: stats.views, likes: stats.likes, comments: stats.comments });
+  if (!ok) {
+    btn.disabled = false;
+    showMiniToast('点赞失败，稍后再试');
+    return;
+  }
+  localStorage.setItem(SITE_STATS.LS_LIKED, String(Date.now()));
+  btn.classList.add('liked');
+  btn.querySelector('.heart').textContent = '💖';
+  document.getElementById('likeText').textContent = '已点赞';
+  if (inp) inp.style.display = 'none';
+  bumpNum(document.getElementById('likeCount'), stats.likes.length);
+  showMiniToast(name ? `谢谢 ${name} 💖` : '谢谢你 💖');
+}
+
+async function submitSiteComment() {
+  const nameEl = document.getElementById('commentName');
+  const textEl = document.getElementById('commentText');
+  const btn = document.getElementById('commentSubmit');
+  const text = textEl.value.trim();
+  if (!text) { textEl.focus(); return; }
+  if (text.length > 500) { showMiniToast('评论太长，最多 500 字'); return; }
+  btn.disabled = true;
+  btn.textContent = '发布中...';
+
+  const latest = await fetchStats();
+  if (latest) {
+    stats.likes = Array.isArray(latest.likes) ? latest.likes : [];
+    stats.comments = Array.isArray(latest.comments) ? latest.comments : [];
+    stats.views = latest.views || stats.views;
+  }
+  stats.comments.push({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    name: nameEl.value.trim() || null,
+    text,
+    time: Date.now(),
+  });
+  const ok = await saveStats({ views: stats.views, likes: stats.likes, comments: stats.comments });
+  btn.disabled = false;
+  btn.textContent = '发布';
+  if (!ok) {
+    showMiniToast('发布失败，稍后再试');
+    return;
+  }
+  textEl.value = '';
+  renderComments();
+  showMiniToast('已发布 ✨');
+}
+
+// 评论 textarea 快捷键：Cmd/Ctrl + Enter 发布
+document.addEventListener('DOMContentLoaded', () => {
+  const t = document.getElementById('commentText');
+  if (t) {
+    t.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        submitSiteComment();
+      }
+    });
+  }
+  // 启动时加载数据
+  initEngage();
+});
+
 function switchView(name) {
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.dataset.view === name));
   document.querySelectorAll('.nav-item').forEach(a => a.classList.toggle('active', a.dataset.view === name));
