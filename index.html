@@ -1732,7 +1732,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px';
     });
     textEl.addEventListener('keydown', e => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); sksSubmitComment(submitBtn); }
+      // 屏蔽所有 Enter（含 Shift+Enter / Cmd+Enter）：不换行、不提交，只能点发送按钮
+      if (e.key === 'Enter') { e.preventDefault(); }
     });
   }
 
