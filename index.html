@@ -357,61 +357,69 @@ details.howto p:last-child { margin-bottom: 0; }
   .home-mobile-hint { display: block; padding: 10px 14px; background: var(--primary-soft); color: var(--primary); font-size: 12.5px; text-align: center; border-bottom: 1px solid var(--border); }
 }
 
-/* === skills 官网 engage（v2.0 SCF 版） === */
-.sks-engage { margin-top: 8px; }
-.sks-stats-bar { display: flex; gap: 22px; align-items: center; margin: 12px 0 18px; padding: 12px 16px; background: white; border: 1px solid var(--border); border-radius: 12px; }
-.sks-stat { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-mute); }
-.sks-stat strong { font-size: 16px; font-weight: 700; color: var(--text); margin-left: 2px; }
-.sks-stat-icon { font-size: 16px; }
+/* === skills 官网 engage（v3.0 KM 风轻量版） === */
+.sks-engage { margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--border); }
+.sks-engage > h2 { font-size: 17px; font-weight: 700; color: var(--text); margin: 0 0 4px; }
+.sks-engage > .sub { color: var(--text-mute); font-size: 13px; margin: 0 0 22px; }
 
-.sks-like-area { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; }
-.sks-like-btn { display: inline-flex; align-items: center; gap: 10px; padding: 11px 22px; border-radius: 30px; border: 1px solid var(--border); background: white; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: all 0.18s; font-family: inherit; }
-.sks-like-btn:hover:not(:disabled) { border-color: var(--accent); background: #fef0fa; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,107,157,0.15); }
-.sks-like-btn:disabled { cursor: default; }
-.sks-like-btn.liked { background: linear-gradient(135deg, #ffe7f3, #fff8e7); border-color: var(--accent); color: var(--accent); }
-.sks-heart { font-size: 18px; }
-.sks-input-name { padding: 10px 14px; border: 1px solid var(--border); border-radius: 22px; font-size: 13px; outline: none; font-family: inherit; transition: border-color 0.15s; box-sizing: border-box; }
-.sks-input-name:focus { border-color: var(--primary); }
-.sks-hint { font-size: 12px; color: var(--text-mute); }
+/* KM 风圆形图标按钮组 */
+.sks-actions { display: flex; gap: 36px; align-items: center; justify-content: center; margin: 8px 0 28px; flex-wrap: wrap; }
+.sks-action { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
+.sks-action-icon { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--border); background: white; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--text-mute); transition: all 0.18s; }
+.sks-action:hover .sks-action-icon { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(102,126,234,0.15); }
+.sks-action.active .sks-action-icon { border-color: var(--accent); background: #fff0f6; color: var(--accent); }
+.sks-action-label { font-size: 12.5px; color: var(--text-mute); }
+.sks-action-label strong { color: var(--text); font-weight: 600; margin-left: 3px; }
+.sks-action.active .sks-action-label { color: var(--accent); }
+.sks-action.active .sks-action-label strong { color: var(--accent); }
 
-.sks-comment-form { display: grid; grid-template-columns: 200px 1fr auto; gap: 10px; align-items: stretch; background: white; border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 6px; }
-.sks-comment-form input,
-.sks-comment-form textarea { padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; font-family: inherit; box-sizing: border-box; }
-.sks-comment-form input:focus,
-.sks-comment-form textarea:focus { border-color: var(--primary); }
-.sks-comment-form textarea { resize: vertical; min-height: 42px; max-height: 200px; line-height: 1.55; }
-.sks-submit { padding: 10px 20px; background: var(--text); color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; font-family: inherit; }
-.sks-submit:hover:not(:disabled) { background: #2a2a4e; }
-.sks-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-.sks-form-hint { font-size: 11.5px; color: var(--text-mute); margin: 0 4px 14px; }
+/* 评论区头部 */
+.sks-cm-head { display: flex; align-items: baseline; gap: 8px; margin: 22px 0 12px; }
+.sks-cm-head h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 0; }
+.sks-cm-head .count { font-size: 13px; color: var(--text-mute); font-weight: 600; }
 
-.sks-comment-list { display: flex; flex-direction: column; gap: 10px; }
-.sks-comment-item { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; }
-.sks-comment-item header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.sks-comment-item .avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
-.sks-comment-item .avatar.anon { background: #d0d0d8; }
-.sks-comment-item .meta { flex: 1; min-width: 0; }
-.sks-comment-item .meta strong { font-size: 13px; font-weight: 700; }
-.sks-comment-item .meta time { font-size: 11.5px; color: var(--text-mute); margin-left: 8px; }
-.sks-comment-item .body { font-size: 13px; line-height: 1.6; color: #444; white-space: pre-wrap; word-break: break-word; }
-.sks-comment-empty { text-align: center; color: #aaa; font-size: 13px; padding: 24px 0; }
+/* 评论输入区（KM 风：单 textarea + 右下发送按钮） */
+.sks-cm-box { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: white; border: 1px solid var(--border); border-radius: 12px; transition: border-color 0.18s; }
+.sks-cm-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(102,126,234,0.08); }
+.sks-cm-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #d0d0d8, #b0b0b8); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.sks-cm-avatar.named { background: linear-gradient(135deg, var(--primary), var(--accent)); }
+.sks-cm-input { flex: 1; min-width: 0; }
+.sks-cm-input textarea { width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 13.5px; line-height: 1.6; color: var(--text); min-height: 24px; max-height: 160px; box-sizing: border-box; padding: 6px 0; }
+.sks-cm-input textarea::placeholder { color: #b0b0b8; }
+.sks-cm-bar { display: flex; align-items: center; justify-content: flex-end; padding-top: 8px; border-top: 1px dashed transparent; }
+.sks-cm-box:focus-within .sks-cm-bar { border-top-color: var(--border); }
+.sks-cm-send { padding: 7px 18px; background: var(--primary); color: white; border: none; border-radius: 18px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; opacity: 0.5; pointer-events: none; }
+.sks-cm-send.ready { opacity: 1; pointer-events: auto; }
+.sks-cm-send.ready:hover { background: #5563d6; }
+.sks-cm-send:disabled { opacity: 0.4 !important; cursor: not-allowed; pointer-events: auto; }
+
+/* 评论列表 */
+.sks-cm-list { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; }
+.sks-cm-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.sks-cm-item:last-child { border-bottom: none; }
+.sks-cm-item .avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+.sks-cm-item .avatar.anon { background: linear-gradient(135deg, #d0d0d8, #b0b0b8); }
+.sks-cm-item .body { flex: 1; min-width: 0; }
+.sks-cm-item .body .name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.sks-cm-item .body .name time { font-size: 11.5px; color: var(--text-mute); font-weight: 400; margin-left: 8px; }
+.sks-cm-item .body .text { font-size: 13.5px; line-height: 1.65; color: #333; white-space: pre-wrap; word-break: break-word; }
+.sks-cm-empty { text-align: center; color: #b0b0b8; font-size: 13px; padding: 30px 0; }
+
+/* 内联昵称小气泡（点赞 / 发送时浮出） */
+.sks-name-pop { position: absolute; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); z-index: 9999; display: flex; gap: 8px; align-items: center; min-width: 280px; }
+.sks-name-pop::before { content: ''; position: absolute; bottom: -6px; left: 26px; width: 12px; height: 12px; background: white; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transform: rotate(45deg); }
+.sks-name-pop input { flex: 1; min-width: 0; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; font-family: inherit; }
+.sks-name-pop input:focus { border-color: var(--primary); }
+.sks-name-pop .skip { padding: 7px 12px; background: transparent; border: none; color: var(--text-mute); font-size: 12.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.sks-name-pop .skip:hover { color: var(--text); }
+.sks-name-pop .ok { padding: 7px 14px; background: var(--primary); color: white; border: none; border-radius: 6px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.sks-name-pop .ok:hover { background: #5563d6; }
 
 @media (max-width: 700px) {
-  .sks-comment-form { grid-template-columns: 1fr; padding: 14px; }
-  .sks-stats-bar { flex-wrap: wrap; gap: 14px; }
+  .sks-actions { gap: 24px; }
+  .sks-action-icon { width: 42px; height: 42px; font-size: 18px; }
+  .sks-name-pop { min-width: 240px; }
 }
-
-/* SCF 自定义弹窗 */
-.sks-modal-wrap { position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px); }
-.sks-modal { background:white;border-radius:12px;padding:22px 24px;width:360px;max-width:92vw;box-shadow:0 12px 36px rgba(0,0,0,0.3); }
-.sks-modal h4 { font-size:15px;font-weight:700;color:#1f2937;margin:0 0 6px; }
-.sks-modal p { font-size:12px;color:#888;margin:0 0 14px; }
-.sks-modal input { width:100%;padding:10px 12px;border:1.5px solid #e0e0e0;border-radius:6px;font-size:13px;outline:none;box-sizing:border-box; }
-.sks-modal input:focus { border-color: var(--primary); }
-.sks-modal-btns { display:flex;gap:10px;margin-top:14px;justify-content:flex-end; }
-.sks-modal-btns button { padding:8px 18px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;font-family:inherit; }
-.sks-modal-btns .cancel { padding:8px 16px;border:1px solid #e0e0e0;background:white;color:#666; }
-.sks-modal-btns .ok { border:none;background:#667eea;color:white; }
 
 /* SCF Toast */
 .sks-toast { position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:white;padding:10px 18px;border-radius:8px;font-size:13px;z-index:1000000;box-shadow:0 4px 16px rgba(0,0,0,0.3); }
@@ -583,33 +591,41 @@ details.howto p:last-child { margin-bottom: 0; }
       </section>
 
       <section class="skill-section sks-engage" id="engage">
-        <h2>👋 一起聊聊</h2>
-        <p class="sub">看到这里，留个想法或一个赞？走 SCF 中转，永不挂掉。</p>
+        <h2>👋 留个反馈</h2>
+        <p class="sub">看到这里，给个赞或留句建议？匿名也行，不用填密码。</p>
 
-        <div class="sks-stats-bar">
-          <div class="sks-stat"><span class="sks-stat-icon">👁️</span><span>浏览</span><strong id="sksViewCount">—</strong></div>
-          <div class="sks-stat"><span class="sks-stat-icon">💖</span><span>点赞</span><strong id="sksLikeCount">—</strong></div>
-          <div class="sks-stat"><span class="sks-stat-icon">💬</span><span>评论</span><strong id="sksCommentCount">—</strong></div>
+        <div class="sks-actions">
+          <div class="sks-action" id="sksLikeAction">
+            <div class="sks-action-icon" id="sksLikeIcon">👍</div>
+            <div class="sks-action-label">点赞 <strong id="sksLikeCount">0</strong></div>
+          </div>
+          <div class="sks-action" id="sksShareAction">
+            <div class="sks-action-icon">↗</div>
+            <div class="sks-action-label">分享</div>
+          </div>
+          <div class="sks-action" id="sksCommentJump">
+            <div class="sks-action-icon">💬</div>
+            <div class="sks-action-label">评论 <strong id="sksCommentCount">0</strong></div>
+          </div>
         </div>
 
-        <div class="sks-like-area">
-          <button class="sks-like-btn" id="sksLikeBtn" type="button">
-            <span class="sks-heart">🤍</span>
-            <span id="sksLikeText">点个赞</span>
-          </button>
-          <input type="text" id="sksLikeName" class="sks-input-name" placeholder="你的名字（可选，不填就匿名）" maxlength="20" />
-          <span class="sks-hint">同一浏览器只能点一次</span>
+        <div class="sks-cm-head">
+          <h3>评论</h3>
+          <span class="count" id="sksCommentHeadCount">0</span>
         </div>
 
-        <div class="sks-comment-form">
-          <input type="text" id="sksCommentName" class="sks-input-name" placeholder="昵称（可选）" maxlength="20" />
-          <textarea id="sksCommentText" placeholder="说点什么…（Cmd/Ctrl + Enter 发布）" maxlength="500"></textarea>
-          <button id="sksCommentSubmit" type="button" class="sks-submit">发布</button>
+        <div class="sks-cm-box" id="sksCmBox">
+          <div class="sks-cm-avatar" id="sksCmAvatar">匿</div>
+          <div class="sks-cm-input">
+            <textarea id="sksCommentText" placeholder="说点什么…（建议 / 想要的功能 / 吐槽都行）" maxlength="500" rows="1"></textarea>
+            <div class="sks-cm-bar">
+              <button id="sksCommentSubmit" type="button" class="sks-cm-send">发送</button>
+            </div>
+          </div>
         </div>
-        <p class="sks-form-hint">发布需要密码（作者会告诉你）。所有评论公开可见，建议不要填敏感内容。</p>
 
-        <div class="sks-comment-list" id="sksCommentList">
-          <div class="sks-comment-empty">还没有评论，第一个就是你 ✨</div>
+        <div class="sks-cm-list" id="sksCommentList">
+          <div class="sks-cm-empty">还没有评论，第一个就是你 ✨</div>
         </div>
       </section>
     </div>
@@ -1442,17 +1458,16 @@ function runDeployDemo() {
   advance();
 }
 
-// ==================== skills 官网 SCF 互动模块 (v2.0) ====================
-// 浏览量自增（一台浏览器只计一次）+ 点赞（无密码，需昵称）+ 评论（密码+昵称）
-// 后端：腾讯云 SCF /stats/* 路由（同 qb-report-relay 函数，新增 STATS_GIST_ID env）
+// ==================== skills 官网互动模块 v3.0（KM 风轻量版）====================
+// 后端复用同一个 SCF：/stats（读）/stats/like（点赞）/stats/comment（评论）
+// v3 改动：拿掉密码 + 拿掉浏览量 + 昵称懒提示（点击操作时弹小气泡）
+// SCF 端代码已支持无密码点赞 + 无密码评论（v2 基础上微调，见末尾说明）
 
 const SKS = {
   SCF_URL: 'https://1406195631-cmjoyal0hh.ap-guangzhou.tencentscf.com', // 部署时由脚本替换
-  PASSWORD_HINT: '发评论需要密码，请向页面作者索取',
   LS_VISITOR: 'sks_visitor_id',
   LS_LIKED: 'sks_liked',
   LS_NICKNAME: 'sks_nickname',
-  SS_PASSWORD: 'sks_pwd',
 };
 
 function sksVisitorId() {
@@ -1471,110 +1486,7 @@ function sksToast(msg, ms) {
   t.className = 'sks-toast';
   t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), ms || 2500);
-}
-
-function sksAskInput(title, hint, placeholder, type) {
-  return new Promise(resolve => {
-    const ex = document.querySelector('.sks-modal-wrap');
-    if (ex) ex.remove();
-    const wrap = document.createElement('div');
-    wrap.className = 'sks-modal-wrap';
-    wrap.innerHTML = `<div class="sks-modal">
-      <h4>${title}</h4>
-      <p>${hint || ''}</p>
-      <input type="${type || 'text'}" autocomplete="off" placeholder="${placeholder || ''}" />
-      <div class="sks-modal-btns">
-        <button class="cancel" type="button">取消</button>
-        <button class="ok" type="button">确定</button>
-      </div>
-    </div>`;
-    document.body.appendChild(wrap);
-    wrap.addEventListener('click', e => e.stopPropagation());
-    const input = wrap.querySelector('input');
-    setTimeout(() => input.focus(), 50);
-    const close = (val) => { wrap.remove(); resolve(val); };
-    wrap.querySelector('.ok').onclick = e => { e.preventDefault(); e.stopPropagation(); close(input.value); };
-    wrap.querySelector('.cancel').onclick = e => { e.preventDefault(); e.stopPropagation(); close(null); };
-    input.addEventListener('keydown', e => {
-      if (e.key === 'Enter') { e.preventDefault(); close(input.value); }
-      else if (e.key === 'Escape') { e.preventDefault(); close(null); }
-    });
-  });
-}
-
-async function sksEnsurePassword(force) {
-  let pwd = sessionStorage.getItem(SKS.SS_PASSWORD);
-  if (pwd && !force) return pwd;
-  pwd = await sksAskInput('🔒 需要写权限密码', SKS.PASSWORD_HINT, '', 'password');
-  if (!pwd) return null;
-  sessionStorage.setItem(SKS.SS_PASSWORD, pwd);
-  return pwd;
-}
-
-async function sksFetch(path, body) {
-  const opts = body
-    ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-    : { method: 'GET' };
-  const res = await fetch(SKS.SCF_URL + path, opts);
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'http ' + res.status }));
-    const e = new Error(err.error || 'request failed');
-    e.status = res.status;
-    throw e;
-  }
-  return await res.json();
-}
-
-async function sksLoadStats() {
-  if (SKS.SCF_URL === 'https://1406195631-cmjoyal0hh.ap-guangzhou.tencentscf.com') return null; // 未配置，跳过
-  try {
-    const stats = await sksFetch('/stats');
-    return stats;
-  } catch (e) {
-    console.warn('[sks] load stats', e);
-    return null;
-  }
-}
-
-function sksRenderStats(stats) {
-  if (!stats) return;
-  const v = document.getElementById('sksViewCount');
-  const l = document.getElementById('sksLikeCount');
-  const c = document.getElementById('sksCommentCount');
-  if (v) v.textContent = stats.views || 0;
-  if (l) l.textContent = (stats.likes || []).length;
-  if (c) c.textContent = (stats.comments || []).length;
-
-  const list = document.getElementById('sksCommentList');
-  if (list) {
-    const cs = (stats.comments || []).slice().sort((a, b) => (b.time || 0) - (a.time || 0));
-    if (cs.length === 0) {
-      list.innerHTML = '<div class="sks-comment-empty">还没有评论，第一个就是你 ✨</div>';
-    } else {
-      list.innerHTML = cs.map(it => `
-        <div class="sks-comment-item">
-          <header>
-            <div class="avatar ${!it.name ? 'anon' : ''}">${(it.name || '匿').slice(0, 1)}</div>
-            <div class="meta">
-              <strong>${escapeHtmlSks(it.name || '匿名访客')}</strong>
-              <time>${sksFmtTime(it.time)}</time>
-            </div>
-          </header>
-          <div class="body">${escapeHtmlSks(it.text)}</div>
-        </div>`).join('');
-    }
-  }
-
-  // 点赞按钮态
-  const liked = localStorage.getItem(SKS.LS_LIKED) === '1';
-  const btn = document.getElementById('sksLikeBtn');
-  if (btn) {
-    btn.classList.toggle('liked', liked);
-    btn.disabled = liked;
-    document.getElementById('sksLikeText').textContent = liked ? '已点赞 ✨' : '点个赞';
-    btn.querySelector('.sks-heart').textContent = liked ? '💖' : '🤍';
-  }
+  setTimeout(() => t.remove(), ms || 2000);
 }
 
 function escapeHtmlSks(s) {
@@ -1590,109 +1502,247 @@ function sksFmtTime(ts) {
   if (diff < 60000) return '刚刚';
   if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
   if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
+  if (diff < 604800000) return Math.floor(diff / 86400000) + '天前';
   return new Date(t).toLocaleDateString('zh-CN');
 }
 
-async function sksTrackView() {
-  if (SKS.SCF_URL === 'https://1406195631-cmjoyal0hh.ap-guangzhou.tencentscf.com') return;
-  try {
-    await sksFetch('/stats/view', { visitorId: sksVisitorId() });
-  } catch (e) { console.warn('[sks] view', e); }
+function sksFetch(path, body) {
+  const opts = body
+    ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    : { method: 'GET' };
+  return fetch(SKS.SCF_URL + path, opts).then(async (res) => {
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: 'http ' + res.status }));
+      const e = new Error(err.error || 'request failed');
+      e.status = res.status;
+      throw e;
+    }
+    return res.json();
+  });
 }
 
-async function sksDoLike() {
-  if (SKS.SCF_URL === 'https://1406195631-cmjoyal0hh.ap-guangzhou.tencentscf.com') {
-    sksToast('管理员还未配置 SCF', 3000);
+// ===== 昵称小气泡（核心交互）=====
+// 点击"点赞"或"发送"时调用，从 anchor 元素上方浮出，可填可跳
+function sksAskNickname(anchor) {
+  return new Promise(resolve => {
+    const ex = document.querySelector('.sks-name-pop');
+    if (ex) ex.remove();
+    const stored = localStorage.getItem(SKS.LS_NICKNAME) || '';
+    const pop = document.createElement('div');
+    pop.className = 'sks-name-pop';
+    pop.innerHTML = `
+      <input type="text" placeholder="昵称（选填）" maxlength="20" value="${escapeHtmlSks(stored)}" />
+      <button class="skip" type="button">跳过</button>
+      <button class="ok" type="button">确定</button>
+    `;
+    document.body.appendChild(pop);
+    // 定位到 anchor 上方
+    const r = anchor.getBoundingClientRect();
+    pop.style.left = (r.left + window.scrollX) + 'px';
+    pop.style.top = (r.top + window.scrollY - pop.offsetHeight - 12) + 'px';
+    // 防出界
+    const maxLeft = window.innerWidth - pop.offsetWidth - 16;
+    if (parseFloat(pop.style.left) > maxLeft) pop.style.left = maxLeft + 'px';
+    if (parseFloat(pop.style.left) < 8) pop.style.left = '8px';
+
+    pop.addEventListener('click', e => e.stopPropagation());
+    const input = pop.querySelector('input');
+    setTimeout(() => input.focus(), 30);
+    const close = (val) => { pop.remove(); document.removeEventListener('click', outsideClose); resolve(val); };
+    const outsideClose = (e) => { if (!pop.contains(e.target)) close('__cancel__'); };
+    setTimeout(() => document.addEventListener('click', outsideClose), 0);
+
+    pop.querySelector('.ok').onclick = (e) => {
+      e.preventDefault(); e.stopPropagation();
+      const v = (input.value || '').trim().slice(0, 20);
+      if (v) localStorage.setItem(SKS.LS_NICKNAME, v);
+      close(v); // 空字符串=匿名
+    };
+    pop.querySelector('.skip').onclick = (e) => {
+      e.preventDefault(); e.stopPropagation();
+      close(''); // 跳过=匿名
+    };
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const v = (input.value || '').trim().slice(0, 20);
+        if (v) localStorage.setItem(SKS.LS_NICKNAME, v);
+        close(v);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        close('__cancel__');
+      }
+    });
+  });
+}
+
+// ===== 数据加载与渲染 =====
+async function sksLoadStats() {
+  if (SKS.SCF_URL.indexOf('__SKS') === 0) return null;
+  try {
+    return await sksFetch('/stats');
+  } catch (e) {
+    console.warn('[sks] load stats', e);
+    return null;
+  }
+}
+
+function sksRenderStats(stats) {
+  const liked = localStorage.getItem(SKS.LS_LIKED) === '1';
+  const likeCount = stats ? (stats.likes || []).length : 0;
+  const commentCount = stats ? (stats.comments || []).length : 0;
+
+  const lc = document.getElementById('sksLikeCount'); if (lc) lc.textContent = likeCount;
+  const cc = document.getElementById('sksCommentCount'); if (cc) cc.textContent = commentCount;
+  const hc = document.getElementById('sksCommentHeadCount'); if (hc) hc.textContent = commentCount;
+
+  const likeAction = document.getElementById('sksLikeAction');
+  const likeIcon = document.getElementById('sksLikeIcon');
+  if (likeAction && likeIcon) {
+    if (liked) { likeAction.classList.add('active'); likeIcon.textContent = '❤️'; }
+    else { likeAction.classList.remove('active'); likeIcon.textContent = '👍'; }
+  }
+
+  // 评论列表
+  const list = document.getElementById('sksCommentList');
+  if (!list) return;
+  const cs = stats ? (stats.comments || []).slice().sort((a, b) => (b.time || 0) - (a.time || 0)) : [];
+  if (cs.length === 0) {
+    list.innerHTML = '<div class="sks-cm-empty">还没有评论，第一个就是你 ✨</div>';
+  } else {
+    list.innerHTML = cs.map(it => `
+      <div class="sks-cm-item">
+        <div class="avatar ${!it.name ? 'anon' : ''}">${escapeHtmlSks((it.name || '匿').slice(0, 1))}</div>
+        <div class="body">
+          <div class="name">${escapeHtmlSks(it.name || '匿名访客')}<time>${sksFmtTime(it.time)}</time></div>
+          <div class="text">${escapeHtmlSks(it.text)}</div>
+        </div>
+      </div>`).join('');
+  }
+}
+
+// ===== 操作 =====
+async function sksDoLike(anchorEl) {
+  if (SKS.SCF_URL.indexOf('__SKS') === 0) {
+    sksToast('管理员还未配置 SCF', 2500);
     return;
   }
-  if (localStorage.getItem(SKS.LS_LIKED) === '1') return;
-  const nameInput = document.getElementById('sksLikeName');
-  const name = (nameInput.value || '').trim().slice(0, 20);
-  if (name) localStorage.setItem(SKS.LS_NICKNAME, name);
+  if (localStorage.getItem(SKS.LS_LIKED) === '1') {
+    sksToast('已经赞过了 ❤️', 1500);
+    return;
+  }
+  const name = await sksAskNickname(anchorEl);
+  if (name === '__cancel__') return;
+
   try {
     await sksFetch('/stats/like', { visitorId: sksVisitorId(), nickname: name });
     localStorage.setItem(SKS.LS_LIKED, '1');
+    sksSyncAvatar();
     sksToast('感谢点赞 ❤️');
     const stats = await sksLoadStats();
     sksRenderStats(stats);
   } catch (e) {
-    sksToast('点赞失败：' + e.message.slice(0, 60), 4000);
+    sksToast('点赞失败：' + e.message.slice(0, 60), 3000);
   }
 }
 
-async function sksSubmitComment() {
-  if (SKS.SCF_URL === 'https://1406195631-cmjoyal0hh.ap-guangzhou.tencentscf.com') {
-    sksToast('管理员还未配置 SCF', 3000);
+async function sksDoShare() {
+  const url = window.location.href.split('#')[0];
+  try {
+    await navigator.clipboard.writeText(url);
+    sksToast('链接已复制 📋');
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = url; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); sksToast('链接已复制 📋'); }
+    catch (_) { sksToast('请手动复制链接', 2500); }
+    finally { ta.remove(); }
+  }
+}
+
+async function sksSubmitComment(anchorEl) {
+  if (SKS.SCF_URL.indexOf('__SKS') === 0) {
+    sksToast('管理员还未配置 SCF', 2500);
     return;
   }
   const textEl = document.getElementById('sksCommentText');
-  const nameEl = document.getElementById('sksCommentName');
-  const btn = document.getElementById('sksCommentSubmit');
   const text = (textEl.value || '').trim();
   if (!text) return;
-  const name = (nameEl.value || '').trim().slice(0, 20);
-  if (name) localStorage.setItem(SKS.LS_NICKNAME, name);
 
-  let pwd = await sksEnsurePassword(false);
-  if (!pwd) return;
+  const name = await sksAskNickname(anchorEl);
+  if (name === '__cancel__') return;
 
+  const btn = document.getElementById('sksCommentSubmit');
   btn.disabled = true;
-  btn.textContent = '发布中…';
-  const tryOnce = async (password) => sksFetch('/stats/comment', {
-    password, nickname: name, text,
-  });
+  const oldTxt = btn.textContent;
+  btn.textContent = '发送中…';
   try {
-    try {
-      await tryOnce(pwd);
-    } catch (e1) {
-      if (e1.status === 401) {
-        sessionStorage.removeItem(SKS.SS_PASSWORD);
-        pwd = await sksEnsurePassword(true);
-        if (!pwd) throw new Error('cancelled');
-        await tryOnce(pwd);
-      } else throw e1;
-    }
+    await sksFetch('/stats/comment', { nickname: name, text });
     textEl.value = '';
+    textEl.style.height = 'auto';
+    sksToggleSendReady('');
+    sksSyncAvatar();
     sksToast('已发布 ✨');
     const stats = await sksLoadStats();
     sksRenderStats(stats);
   } catch (e) {
-    if (String(e.message) !== 'cancelled') {
-      sksToast('发布失败：' + e.message.slice(0, 60), 4000);
-    }
+    sksToast('发布失败：' + e.message.slice(0, 60), 3000);
   } finally {
     btn.disabled = false;
-    btn.textContent = '发布';
+    btn.textContent = oldTxt;
   }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const btn = document.getElementById('sksLikeBtn');
-  if (btn) btn.onclick = sksDoLike;
-  const sub = document.getElementById('sksCommentSubmit');
-  if (sub) sub.onclick = sksSubmitComment;
-  const textEl = document.getElementById('sksCommentText');
-  if (textEl) textEl.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); sksSubmitComment(); }
-  });
-  // 回填昵称
+function sksToggleSendReady(val) {
+  const btn = document.getElementById('sksCommentSubmit');
+  if (!btn) return;
+  if ((val || '').trim()) btn.classList.add('ready');
+  else btn.classList.remove('ready');
+}
+
+function sksSyncAvatar() {
+  const av = document.getElementById('sksCmAvatar');
+  if (!av) return;
   const nick = localStorage.getItem(SKS.LS_NICKNAME) || '';
-  if (nick) {
-    const n1 = document.getElementById('sksLikeName');
-    const n2 = document.getElementById('sksCommentName');
-    if (n1) n1.value = nick;
-    if (n2) n2.value = nick;
+  if (nick) { av.classList.add('named'); av.textContent = nick.slice(0, 1); }
+  else { av.classList.remove('named'); av.textContent = '匿'; }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const likeEl = document.getElementById('sksLikeAction');
+  if (likeEl) likeEl.onclick = () => sksDoLike(likeEl);
+
+  const shareEl = document.getElementById('sksShareAction');
+  if (shareEl) shareEl.onclick = sksDoShare;
+
+  const jumpEl = document.getElementById('sksCommentJump');
+  if (jumpEl) jumpEl.onclick = () => {
+    const t = document.getElementById('sksCommentText');
+    if (t) { t.focus(); t.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  };
+
+  const submitBtn = document.getElementById('sksCommentSubmit');
+  if (submitBtn) submitBtn.onclick = () => sksSubmitComment(submitBtn);
+
+  const textEl = document.getElementById('sksCommentText');
+  if (textEl) {
+    textEl.addEventListener('input', e => {
+      sksToggleSendReady(e.target.value);
+      e.target.style.height = 'auto';
+      e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px';
+    });
+    textEl.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); sksSubmitComment(submitBtn); }
+    });
   }
 
-  if (SKS.SCF_URL === 'https://1406195631-cmjoyal0hh.ap-guangzhou.tencentscf.com') {
-    // 未配置：UI 留着但不发请求
-    return;
-  }
-  // 异步上报浏览 + 拉数据
-  sksTrackView();
+  sksSyncAvatar();
+
+  if (SKS.SCF_URL.indexOf('__SKS') === 0) return;
   const stats = await sksLoadStats();
   sksRenderStats(stats);
 });
+
 </script>
 
 </body>
